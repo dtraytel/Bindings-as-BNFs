@@ -51,7 +51,12 @@ arity and with
 
   Working with abstract axiomatic examples is the usual first step of our
   methodology of developing and implementing foundational constructions in
-  Isabelle/HOL (compare this, e.g., to [our construction of standard datatypes](https://devel.isa-afp.org/browser_info/current/AFP/BNF_Operations/index.html)). In the implementations, all axioms are replaced by proofs which are provided by the user for atomic type constructors (e.g., sums and products) and discharged automatically by tactics for types constructed by the commands in question (e.g., datatypes and codatatypes).
+  Isabelle/HOL (compare this, e.g., to [our construction of standard
+  datatypes](https://devel.isa-afp.org/browser_info/current/AFP/BNF_Operations/i
+   ndex.html)). In the implementation, all axioms will be replaced by proofs
+  which are supplied by the user for atomic type constructors (e.g., sums and
+  products) or synthesized automatically by tactics for types constructed by
+  the commands in question (e.g., datatypes and codatatypes).
 
 4. ```Make_Nonrep.thy```: The nonrepetitiveness construction (Theorem 2), which
 turns the recursive variable ```'c``` into a top-binding variable.
