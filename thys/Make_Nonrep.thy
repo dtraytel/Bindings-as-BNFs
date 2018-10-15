@@ -2,27 +2,31 @@ theory Make_Nonrep
   imports Common_Data_Codata_Bindings
 begin
 
-(* This theory shows that starting with the pullback-preserving MRBNF F, which is
-
-a BNF in third and fourth position, small-support-endo-BNF in the first, and binder-BNF in the second
-
-and applying Make_Binder at position 3 we obtain a pullback-preserving MRBNF F', which is
-
-a BNF in fourth position, small-support-endo-BNF in the first, and binder-BNF in the second and third
-
+(* This theory we start with an MRBNF F, which is assumed (in the imported theory 
+Common_Data_Codata_Bindings) to have the following characteristics:
+  ** is map-constrained to small-support endofunctions in the 1st position, 
+  ** is map-constrained to small-support endobijections in the 2nd position,  
+  ** is unconstrained in the 3rd and 4th position.   
+We show that applying the nonrepetitiveness construction at the 3rd position (on which F is assumed 
+to be pullback-preserving), we transform it into an MRBNF F' that has the same characteristics 
+as F except that the 3rd position becomes map-constrained to small-support endobijections.  
 *)
 
-(* Assume strong BNF (on the BNF arguments only, here, 3 and 4 : *)
 axiomatization where
+(* The next property assumes preservation of pullbacks on the third position. 
+   NB: All MRBNFs already preserve _weak_ pullbacks, i.e., they satisfy the following property 
+   without uniqueness.  *)
   F_rel_map_set2_strong: 
   "\<And> R S (x :: ('a :: var_TT,'b :: var_TT,'c,'d) F) y.
     rrel_F R S x y =
       (\<exists>!z. set3_F z \<subseteq> {(x, y). R x y} \<and>
-           set4_F z \<subseteq> {(x, y). S x y} \<and> map_F id id fst fst z = x \<and> map_F id id snd snd z = y)"
+            set4_F z \<subseteq> {(x, y). S x y} \<and> map_F id id fst fst z = x \<and> map_F id id snd snd z = y)"
   and
 (* The next property assumes that nonrepetitive elements exist: *)
   ex_nonrep: "\<exists>x. \<forall>x'. (\<exists> R. rrel_F R (=) x x') \<longrightarrow> (\<exists> f. x' = map_F id id f id x)"
 
+(* Important consequence of preservation of pullbacks (which is actually equivalent to it): 
+The relator is closed under intersections. *)
 lemma F_strong:
   "rel_F id id R3 R4 x y \<Longrightarrow> rel_F id id Q3 Q4 x y \<Longrightarrow> rel_F id id (inf R3 Q3) (inf R4 Q4) x y"
   unfolding rel_F_def F_map_id
@@ -39,11 +43,7 @@ lemma F_strong:
     done
   done
 
-(* The above is equivalent with preservation of (strong) pullbacks; it is preserved by 
-composition and (co)data, giving the "free/nonpermutative" (co)datatypes. 
-It is satisfied by the basic BNFs, but not by set-like BNFs.  *)
-
-(* It implies the following "exchange"-property, which could be read: 
+(* Another important consequence: the following "exchange"-property, which could be read: 
 Since the atoms have a fixed position, we can permute the relations: *)
 lemma rel_F_exchange: 
   fixes x :: "('a1::var_TT,'a2::var_TT,'a3,'a4) F" and x' :: "('a1,'a2,'a3','a4') F"
@@ -51,6 +51,7 @@ lemma rel_F_exchange:
   shows "rel_F id id R2 Q3 x x'" 
   by (rule F_rel_mono_strong1[OF supp_id_bound bij_id supp_id_bound F_strong[OF assms]]) auto
 
+(* Then notion of two items having the same shape (w.r.t. the 3rd position): *)
 definition sameShape1 :: "('a1::var_TT,'a2::var_TT,'a3,'a4) F \<Rightarrow> ('a1,'a2,'a3,'a4) F \<Rightarrow> bool" where 
   "sameShape1 x x' \<equiv> \<exists> R. rel_F id id R (=) x x'"
 
@@ -86,7 +87,7 @@ unfolding nonrep2_def sameShape1_def proof safe
     by simp
 qed
 
-(* Here we use the BNF strength: *)
+(* Here we need pullback preservation: *)
 lemma nonrep2_map_F_rev:
   fixes x :: "('a1::var_TT,'a2::var_TT,'a3,'a4) F" and u :: "'a2\<Rightarrow>'a2" and g :: "'a4 \<Rightarrow> 'b4"
   assumes u: "bij u" "|supp u| <o bound(any::'a2)" 
@@ -170,7 +171,7 @@ lift_definition map_F' :: "('a1::var_TT \<Rightarrow> 'a1) \<Rightarrow> ('a2::v
 lift_definition rrel_F' :: "('a4 \<Rightarrow> 'a4' \<Rightarrow> bool) \<Rightarrow> ('a1::var_TT,'a2::var_TT,'a3::var_TT,'a4) F' \<Rightarrow> ('a1,'a2,'a3,'a4') F' \<Rightarrow> bool"
   is "rrel_F (=)" .
 
-(* Verifying the axioms of a MRBNF *)
+(* Verifying the axioms of a MRBNF for F':  *)
 
 lemma F'_map_id: "map_F' id id id id = id"
   by (rule ext, transfer) (auto simp: F_map_id asSS_def)
@@ -250,53 +251,6 @@ lemma F'_set3_bd: "\<And>b. |set3_F' b| <o bd_TT"
 lemma F'_rel_comp_leq_: "rrel_F' Q OO rrel_F' R \<le> rrel_F' (Q OO R)"
   by (intro predicate2I, transfer)
     (auto intro: F_rel_comp_leq_[of "(=)" _ "(=)", simplified, THEN predicate2D])
-
-(*
-lemma F'_rel_map_set_bij: 
-  fixes u :: "'a1::var_F \<Rightarrow> 'a1" and R3 :: "'a3 \<Rightarrow> 'a3' \<Rightarrow> bool"
-  assumes u: "bij u" "|supp u| <o bound(any::'a1)"  
-  assumes "bij (u2::'a2\<Rightarrow>'a2)" and nx: "nonrep2 x" and ny: "nonrep2 y"
-  shows 
-    "rel_F u (Grp u2) R3 x y \<longleftrightarrow>
- (\<exists>z. nonrep2 z \<and>
-      set3_F z \<subseteq> {(x, y). R3 x y} \<and> map_F id id fst z = x \<and> map_F u u2 snd z = y)"
-    (is "?A \<longleftrightarrow> ?B")
-proof 
-  assume ?A
-  then obtain z :: "('a1, 'a2 \<times> 'a2, 'a3 \<times> 'a3') F" 
-    where 2: "set2_F z \<subseteq> {(x, y). Grp u2 x y}"
-      and 3: "set3_F z \<subseteq> {(x, y). R3 x y}"
-      and x: "x = map_F id fst fst z" and y: "y = map_F u snd snd z" 
-    unfolding F_rel_map_set[OF u] by auto
-  show ?B apply(rule exI[of _ "map_F id fst id z"], safe)
-    subgoal using nx by (simp add: x nonrep2_map_F_rev[OF id] F_map_comp[OF id id, symmetric])
-    subgoal using 3 unfolding F_set_map[OF id] by auto
-    subgoal using x by (simp add: F_map_comp[OF id id, symmetric])
-    subgoal unfolding y using 2 by (auto simp add: F_map_comp[OF id u, symmetric] Grp_def intro!: F_map_cong[OF u u])
-    done
-next 
-  assume ?B
-  then obtain z where z: "nonrep2 z" and 3: "set3_F z \<subseteq> {(x, y). R3 x y}"
-    and x: "map_F id id fst z = x" and y: "map_F u u2 snd z = y" by auto
-  show ?A unfolding F_rel_map_set[OF u]
-    apply(rule exI[of _ "map_F id (\<lambda>x. (x, u2 x)) id z"], safe)
-    subgoal by (simp add: F_set2_map[OF id] Grp_def image_def)
-    subgoal using 3 by (auto simp: F_set3_map[OF id] Grp_def image_def)
-    subgoal by(simp add: F_map_comp[OF id id, symmetric] o_def x id_def[symmetric])
-    subgoal by(simp add: F_map_comp[OF id u, symmetric] o_def y)
-    done
-qed
-
-lemma F'_rel_map_set2:
-  fixes u :: "'a1::var_F \<Rightarrow> 'a1" 
-  assumes u: "bij u" "|supp u| <o bound(any::'a1)"  
-  assumes "bij (u2::'a2\<Rightarrow>'a2)"  
-  shows 
-    "rel_F' u u2 R3 x y \<longleftrightarrow>  
- (\<exists>z. set3_F' z \<subseteq> {(x, y). R3 x y} \<and> 
-      map_F' id id fst z = x \<and> map_F' u u2 snd z = y)" 
-  using assms by (transfer) (simp add: u F'_rel_map_set_bij)
-*)
 
 lemma rrel_F_bij:
   fixes x :: "('a :: var_TT,'b :: var_TT,'c,'d) F"

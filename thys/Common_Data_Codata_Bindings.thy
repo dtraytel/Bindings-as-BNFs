@@ -7,8 +7,13 @@ abbreviation "bound(a::'a) \<equiv> |UNIV :: 'a set|"
 (* The parameters of the development *)
 
 
-(* ASSUMED PROPERTIES OF F: 
-BNF in third and fourth position, small-support-endo-BNF in the first, binder-BNF in the second.
+(* We fix an MRBNF F which is: 
+  ** map-constrained to small-support endofunctions in the 1st position, 
+  ** map-constrained to small-support endobijections in the 2nd position,  
+  ** unconstrained in the 3rd and 4th position. 
+
+The (co)datatype fixpoint constructions and the nonrepetitiveness restriction 
+will be applied to this MRBNF. 
 *)
   
 typedecl ('a,'b,'c,'d) F

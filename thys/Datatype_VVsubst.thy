@@ -62,7 +62,7 @@ and
   subgoal by (rule emp_bound)
   subgoal (* fixed p here? is this a bug? *) 
     using emp_bound imsupp_supp_bound Rep_ssfun by auto 
-  subgoal unfolding swapping_def apply safe
+  subgoal unfolding termLikeStr_def apply safe
     subgoal by simp
     subgoal premises prems for u v
       supply prems[transfer_rule] bij_comp[transfer_rule] supp_comp_bound[transfer_rule]
@@ -107,7 +107,7 @@ and
       intro!: cctor_eq_intro_map_TT[of id] F_map_cong)
     done
   subgoal
-    unfolding swappingC_def apply (intro conjI)
+    unfolding termLikeStrC_def apply (intro conjI)
     subgoal by (auto simp: map_TT_id)
     subgoal by (safe, transfer') (auto simp: asSS_def T_map_comp supp_comp_bound)
     subgoal by (safe, transfer') (auto simp: asSS_def supp_id_bound intro!: alpha_bij[of _ _ _ id, unfolded T_map_id] alpha_refl)

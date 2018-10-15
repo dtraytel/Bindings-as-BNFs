@@ -3,9 +3,9 @@ theory Codatatype_Corecursion_Template
 begin
 
 
-(* Norrish's notation: *)
-definition swapping :: "(('a::vvar_TT \<Rightarrow> 'a) \<Rightarrow> 'c \<Rightarrow> 'c) \<Rightarrow> ('c \<Rightarrow> 'a set) \<Rightarrow> bool" where 
-  "swapping swp fvars \<equiv>
+(* Term-like structures: *)
+definition termLikeStr :: "(('a::vvar_TT \<Rightarrow> 'a) \<Rightarrow> 'c \<Rightarrow> 'c) \<Rightarrow> ('c \<Rightarrow> 'a set) \<Rightarrow> bool" where 
+  "termLikeStr swp fvars \<equiv>
   swp id = id \<and> 
   (\<forall> u v. bij u \<and> |supp u| <o bound (any::'a) \<and> bij v \<and> |supp v| <o bound (any::'a)
       \<longrightarrow> swp (u o v) = swp u o swp v) \<and> 
@@ -14,17 +14,17 @@ definition swapping :: "(('a::vvar_TT \<Rightarrow> 'a) \<Rightarrow> 'c \<Right
   (\<forall> u c a. bij u \<and> |supp u| <o bound (any::'a) 
      \<longrightarrow> (u a \<in> fvars (swp u c) \<longleftrightarrow> a \<in> fvars c))"
 
-(* Need to factor in terms in the "swapping" condition for 'a D -- a heavily restricted 
-"swapping" condition, only assuming functoriality and nothing else; 
+(* A restricted version of "termLikeStr" to be used for the comodels -- it only 
+assums small-support bijection functoriality and nothing else, 
 in particular nothing about freshness.  *)
-abbreviation swappingD :: "(('a::vvar_TT \<Rightarrow> 'a) \<Rightarrow> 'c \<Rightarrow> 'c) \<Rightarrow> bool" where 
-  "swappingD swp  \<equiv>
+abbreviation termLikeStrD :: "(('a::vvar_TT \<Rightarrow> 'a) \<Rightarrow> 'c \<Rightarrow> 'c) \<Rightarrow> bool" where 
+  "termLikeStrD swp  \<equiv>
   (\<forall> c. swp id c = c) \<and> 
   (\<forall> u v c. bij u \<and> |supp u| <o bound (any::'a) \<and> bij v \<and> |supp v| <o bound (any::'a)
     \<longrightarrow>  swp (u o v) c = swp u (swp v c))"
 
-(* The following will not be used in the development, but motivates the 
-chosen axioms for DDTOR by showing that the terms satisfy them for their natural destructor.  *)
+(* The following definition and three properties will not be used in the development, but motivate the 
+chosen axioms for DDTOR by showing that the terms satisfy them for their natural destructor:  *)
 definition ddtor :: "'a::vvar_TT TT \<Rightarrow> ('a, 'a, 'a TT, 'a TT) F set" where 
   "ddtor t \<equiv> {x . t = cctor x}"
 
@@ -41,35 +41,34 @@ lemma FFVars_ddtor:
   assumes "x \<in> ddtor t"
   shows "FFVars t = set1_F x \<union> UNION (set3_F x) FFVars \<union> FFVarsB x"
   using assms by (auto simp: ddtor_def FFVars_simps)
-    (****)
+(****)
 
-(* The domain type: *)
+(* The comodel type: *)
 template COREC = 'a D
 
-(* Destructor-like operator (nondeterministic, as would be the one for terms): *)
+(* Nondeterministic destructor-like operator: *)
 fixes DDTOR :: "'a::vvar_TT D \<Rightarrow> ('a, 'a, 'a TT + 'a D, 'a TT + 'a D) F set"
-  (* Bijective-mapping (swapping) and freshness like operators for the domain. 
-Note: Here, the "primitive corecursion" sum in the types of mmapD and FFVarsD 
-do not seem to bring anything---I end up with all conditions composed with Inr.  *)
+ (* Bijective-mapping- and freshness- like like operators for the comodel. 
+NB: Here, the "primitive corecursion"-style sum in the types of mmapD and FFVarsD 
+do not seem to bring anything--we would end up with all conditions composed with Inr.  *)
 and mmapD :: "('a::vvar_TT \<Rightarrow> 'a) \<Rightarrow> 'a D \<Rightarrow> 'a D"
 and  FFVarsD :: "'a::vvar_TT D \<Rightarrow> 'a set"
 
+(* Comodel axiomatization: *)
 assumes
-  (* The destructor is non-empty and deterministic modulo a renaming: *)
+  (* Full-corecursion version of the clauses (Dne), (MD), (VD) and (DRen) from the paper: *)
   DDTOR_ne: "\<And> d. DDTOR d \<noteq> {}"
   and 
   DDTOR_mmapD0: "\<And> X X' d. {X,X'} \<subseteq> DDTOR d \<Longrightarrow> 
 \<exists>u. bij (u::'a \<Rightarrow> 'a) \<and> |supp u| <o bound(any::'a::vvar_TT) \<and> id_on (UNION (set4_F X) (case_sum FFVars FFVarsD) - set2_F X) u \<and> 
      map_F id u id (map_sum (map_TT u) (mmapD u)) X = X'" 
-  and 
-  (* The dual of the first block of assumptions from Norrish's paper:   *) 
+  and   
   FFVarsD_DDTOR0: 
   "\<And> d X. X \<in> DDTOR d \<Longrightarrow> 
   set1_F X \<union> UNION (set3_F X) (case_sum FFVars FFVarsD) \<union>
    (UNION (set4_F X) (case_sum FFVars FFVarsD) - set2_F X) \<subseteq> 
   FFVarsD d"  
-  and 
-  (* The dual of the third block: *) 
+  and  
   mmapD_DDTOR: "\<And> u d.
   bij (u::'a\<Rightarrow>'a) \<Longrightarrow> |supp u| <o bound(any::'a::vvar_TT) \<Longrightarrow> 
   DDTOR (mmapD u d) \<subseteq>
@@ -77,8 +76,8 @@ assumes
     (map_F u u (map_sum (map_TT u) (mmapD u)) (map_sum (map_TT u) (mmapD u))) 
     (DDTOR d)"
   and 
-  (* Restricted first block: *)
-  swapping_mmapD_FFVarsD: "swappingD mmapD"
+  (* Comodels are a restricted term-like structure: *)
+  termLikeStr_mmapD_FFVarsD: "termLikeStrD mmapD"
 begin
 
 (* Defined analogously to the FVarsB: *)
@@ -90,12 +89,12 @@ lemmas FFVarsD_DDTOR = FFVarsD_DDTOR0[folded FFVarsBD_def]
 
 (*  *)
 lemma mmapD_id[simp,intro!]: "mmapD id d = d"
-  using swapping_mmapD_FFVarsD by auto
+  using termLikeStr_mmapD_FFVarsD by auto
 
 lemma mmapD_comp: 
   "bij (u::'a\<Rightarrow>'a) \<Longrightarrow> |supp u| <o bound (any::'a::vvar_TT) \<Longrightarrow> bij v \<Longrightarrow> |supp v| <o bound (any::'a) \<Longrightarrow> 
  mmapD (u o v) d = mmapD u (mmapD v d)"
-  using swapping_mmapD_FFVarsD by auto
+  using termLikeStr_mmapD_FFVarsD by auto
 
 (*  *)
 
@@ -139,7 +138,7 @@ definition FVarsBD :: "('a::vvar_TT, 'a, 'a T + 'a D, 'a T + 'a D) F \<Rightarro
 lemmas FVars_def2 = FFVars.abs_eq[symmetric]
 
 
-(* Preterm-based version of the assumptions: *)
+(* Raw-term-based version of the assumptions: *)
 
 (*  *)
 lemmas mapD_id = mmapD_id 
@@ -327,7 +326,7 @@ proof-
       by (auto simp: u v T_map_comp mapD_comp[symmetric]) . 
 qed
 
-(* The "monster lemma": swapping and "pick"-irrelevance covered in one shot: *)
+(* The "monster lemma": termLikeStr and "pick"-irrelevance covered in one shot: *)
 
 lemma f_swap_alpha: 
   assumes p: "suitable pick" and p': "suitable pick'"
@@ -480,7 +479,7 @@ lemma f0_mapD:
 lemmas f0_FVarsD = f_FVarsD[OF suitable_pick0, unfolded f0_def[symmetric]]
 
 
-(* The following theorems for raw theorems will now be lifted to quotiented terms: *)
+(* The following theorems for raw terms will now be lifted to quotiented terms: *)
 thm f0_DTOR f0_mapD f0_FVarsD 
 
 (*******************)

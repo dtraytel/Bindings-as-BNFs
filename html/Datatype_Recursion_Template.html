@@ -19,9 +19,9 @@
 </span><span>  </span><span class="keyword2"><span class="keyword">imports</span></span><span> </span><span>More_Datatype_Bindings</span><span> </span><span>Template</span><span>
 </span><span class="keyword2"><span class="keyword">begin</span></span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Norrish&#39;s notation: *)</span></span></span></span></span><span>
-</span><span class="keyword1"><span class="command">definition</span></span><span> </span><span>swapping</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;((&#39;a::var_TT &#8658; &#39;a) &#8658; &#39;c &#8658; &#39;c) &#8658; (&#39;c &#8658; &#39;a set) &#8658; bool&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">where</span></span><span> 
-</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;swapping swp fvars &#8801;
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Term-like structures: *)</span></span></span></span></span><span>
+</span><span class="keyword1"><span class="command">definition</span></span><span> </span><span>termLikeStr</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;((&#39;a::var_TT &#8658; &#39;a) &#8658; &#39;c &#8658; &#39;c) &#8658; (&#39;c &#8658; &#39;a set) &#8658; bool&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">where</span></span><span> 
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;termLikeStr swp fvars &#8801;
   swp id = id &#8743; 
   (&#8704; u v. bij u &#8743; |supp u| &lt;o bound (any::&#39;a) &#8743; bij v &#8743; |supp v| &lt;o bound (any::&#39;a)
       &#10230; swp (u o v) = swp u o swp v) &#8743; 
@@ -30,9 +30,9 @@
   (&#8704; u c a. bij u &#8743; |supp u| &lt;o bound (any::&#39;a) 
      &#10230; (u a &#8712; fvars (swp u c) &#10231; a &#8712; fvars c))&quot;</span></span></span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Need to factor in terms in the &quot;swapping&quot; condition for &#39;a C: *)</span></span></span></span></span><span>
-</span><span class="keyword1"><span class="command">definition</span></span><span> </span><span>swappingC</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;((&#39;a::var_TT &#8658; &#39;a) &#8658; &#39;a TT &#8658; &#39;c &#8658; &#39;c) &#8658; (&#39;a TT &#8658; &#39;c &#8658; &#39;a set) &#8658; bool&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">where</span></span><span> 
-</span><span class="string"><span class="delete"><span class="delete">&quot;swappingC mp fvars &#8801;
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Extended term-like structures (needed for full-fledged recursion): *)</span></span></span></span></span><span>
+</span><span class="keyword1"><span class="command">definition</span></span><span> </span><span>termLikeStrC</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;((&#39;a::var_TT &#8658; &#39;a) &#8658; &#39;a TT &#8658; &#39;c &#8658; &#39;c) &#8658; (&#39;a TT &#8658; &#39;c &#8658; &#39;a set) &#8658; bool&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">where</span></span><span> 
+</span><span class="string"><span class="delete"><span class="delete">&quot;termLikeStrC mp fvars &#8801;
   (&#8704; t. mp id t = id) &#8743; 
   (&#8704; u v t. bij u &#8743; |supp u| &lt;o bound (any::&#39;a) &#8743; bij v &#8743; |supp v| &lt;o bound (any::&#39;a)
     &#10230; mp (u o v) t = mp u t o mp v t) &#8743; 
@@ -41,45 +41,47 @@
   (&#8704; u c a t. bij u &#8743; |supp u| &lt;o bound (any::&#39;a) &#10230; 
      (u a &#8712; fvars (map_TT u t) (mp u t c) &#10231; a &#8712; fvars t c))&quot;</span></span></span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Swapping for functions involving quotiented terms -- just a useful notation *)</span></span></span></span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Lifting of the map operators to functions involving quotiented terms -- just a useful notation *)</span></span></span></span></span><span>
 </span><span class="keyword1"><span class="command">definition</span></span><span> </span><span>mmapfn</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;((&#39;a::var_TT &#8658; &#39;a) &#8658; &#39;c &#8658; &#39;c) &#8658; ((&#39;a &#8658; &#39;a) &#8658; &#39;a TT &#8658; &#39;d &#8658; &#39;d) &#8658; 
  (&#39;a &#8658; &#39;a) &#8658; &#39;a TT &#8658; (&#39;c &#8658; &#39;d) &#8658; (&#39;c &#8658; &#39;d)&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">where</span></span><span> 
 </span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;mmapfn swp1 swp2 &#8801; &#955; u t cd c. swp2 u t (cd (swp1 (inv u) c))&quot;</span></span></span><span>
 </span><span>
 </span><span class="keyword1"><span class="command">template</span></span><span> </span><span>REC</span><span> </span><span class="delimiter">=</span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The codomain and parameter types: *)</span></span></span></span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The model and parameter types: *)</span></span></span></span></span><span>
 </span><span>   </span><span class="tfree">&#39;a</span><span class="delimiter">::</span><span>var_TT</span><span> </span><span>C</span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span class="tfree">&#39;a</span><span class="delimiter">::</span><span>var_TT</span><span> </span><span>P</span><span>
-</span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(*  locale FSw_model_fixes = *)</span></span></span></span></span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The variables to be avoided: *)</span></span></span></span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Some variables to be avoided (technically subsumed by the parameters, 
+   but lighter so we factor them in too) -- see the paper&#39;s appendix D.1 *)</span></span></span></span></span><span>
 </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>A</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a::var_TT set&quot;</span></span></span><span>  
-</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Constructor-like operator: *)</span></span></span></span></span><span>
+</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Constructor-like operator on the model: *)</span></span></span></span></span><span>
 </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>CCTOR</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;(&#39;a::var_TT, &#39;a, &#39;a TT &#215; (&#39;a P &#8658; &#39;a C), &#39;a TT &#215; (&#39;a P &#8658; &#39;a C)) F &#8658; &#39;a P &#8658; &#39;a C&quot;</span></span></span><span>
-</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Swapping- and freshness like operators for the codomain: *)</span></span></span></span></span><span>
+</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Map- and freshness- like operators on the model: *)</span></span></span></span></span><span>
 </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>mmapC</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;(&#39;a::var_TT &#8658; &#39;a) &#8658; &#39;a TT &#8658; &#39;a C &#8658; &#39;a C&quot;</span></span></span><span>
 </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>FFVarsC</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a::var_TT TT &#8658; &#39;a C &#8658; &#39;a set&quot;</span></span></span><span>
-</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Swapping- and freshness like operators for the parameters: *)</span></span></span></span></span><span>
+</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Map- and freshness- like operators for the parameters: *)</span></span></span></span></span><span>
 </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>mapP</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;(&#39;a::var_TT &#8658; &#39;a) &#8658; &#39;a P &#8658; &#39;a P&quot;</span></span></span><span>
 </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>FVarsP</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a::var_TT P &#8658; &#39;a set&quot;</span></span></span><span> 
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* locale FSw_model_basic = FSw_model_fixes +  *)</span></span></span></span></span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(*  *)</span></span></span></span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The model axiomatization: *)</span></span></span></span></span><span>
 </span><span class="keyword2"><span class="keyword">assumes</span></span><span>  
 </span><span>  </span><span>small_A</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|A| &lt;o bound (any::&#39;a :: var_TT)&quot;</span></span></span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span> 
-</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* First block of assumptions from Norrish&#39;s paper:   *)</span></span></span></span></span><span>
+</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The smallness condition that turns a term-like structure into a parameter structure    *)</span></span></span></span></span><span>
 </span><span>  </span><span>small_FVarsP</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896; p :: &#39;a P. |FVarsP p| &lt;o bound (any::&#39;a :: var_TT)&quot;</span></span></span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span> 
-</span><span>  </span><span>swapping_mapP_FVarsP</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;swapping mapP FVarsP&quot;</span></span></span><span> 
+</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Parameters form a term-like structure: *)</span></span></span></span></span><span>
+</span><span>  </span><span>termLikeStr_mapP_FVarsP</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;termLikeStr mapP FVarsP&quot;</span></span></span><span> 
 </span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(*  *)</span></span></span></span></span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span>   
+</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Next are the two model clauses from the paper, more precisely from the paper&#39;s appendix D.2 which 
+     deals with full-fledged corecursion). *)</span></span></span></span></span><span> 
+</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Condition (VC): *)</span></span></span></span></span><span>
 </span><span>  </span><span>FFVarsC_CCTOR</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896; X p. 
   (&#8704; t pd p. (t,pd) &#8712; set3_F X &#8746; set4_F X &#10230; FFVarsC t (pd p) &#8838; FFVars t &#8746; FVarsP p &#8746; A)
   &#10233; &#8213;&#8249; L&#39;s twist: &#8250; set2_F X &#8745; (FVarsP p &#8746; A) = {} 
   &#10233; FFVarsC (cctor (map_F id id fst fst X)) (CCTOR X p) &#8838; 
       FFVars (cctor (map_F id id fst fst X)) &#8746; FVarsP p &#8746; A&quot;</span></span></span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span> 
-</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Third block: *)</span></span></span></span></span><span> 
+</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Condition (MC): *)</span></span></span></span></span><span>
 </span><span>  </span><span>mmapC_CCTOR</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896; u X (p :: &#39;a P). 
   bij u &#10233; |supp u| &lt;o bound(any::&#39;a :: var_TT) &#10233;
   imsupp u &#8745; A = {} &#10233;
@@ -87,8 +89,8 @@
   CCTOR (map_F u u (&#955; (t,pd). (map_TT u t, mmapfn mapP mmapC u t pd)) 
                    (&#955; (t,pd). (map_TT u t, mmapfn mapP mmapC u t pd)) X) 
         (mapP u p)&quot;</span></span></span><span>
-</span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>swapping_mmapC_FFVarsC</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;swappingC mmapC FFVarsC&quot;</span></span></span><span> 
-</span><span>
+</span><span> </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Models form a term-like structure: *)</span></span></span></span></span><span>
+</span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>termLikeStr_mmapC_FFVarsC</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;termLikeStrC mmapC FFVarsC&quot;</span></span></span><span> 
 </span><span>
 </span><span class="keyword2"><span class="keyword">begin</span></span><span>
 </span><span>
@@ -99,20 +101,20 @@
 </span><span>
 </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(*  *)</span></span></span></span></span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>mapP_id</span><span class="delimiter">[</span><span>simp</span><span class="delimiter">,</span><span>intro</span><span class="delimiter">!</span><span class="delimiter">]</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;mapP id = id&quot;</span></span></span><span>
-</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>swapping_mapP_FVarsP</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>swapping_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>termLikeStr_mapP_FVarsP</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>termLikeStr_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
 </span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>mapP_o</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;bij (u::&#39;a &#8658;&#39;a) &#10233; |supp u| &lt;o bound (any::&#39;a::var_TT) &#10233; bij v &#10233; |supp v| &lt;o bound (any::&#39;a) &#10233;
   mapP (u o v) = mapP u o mapP v&quot;</span></span></span><span>
-</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>swapping_mapP_FVarsP</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>swapping_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>termLikeStr_mapP_FVarsP</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>termLikeStr_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
 </span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>mapP_cong_id</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;bij (u::&#39;a &#8658;&#39;a) &#10233; |supp u| &lt;o bound (any::&#39;a::var_TT) &#10233; 
  (&#8896; a. a &#8712; FVarsP p &#10233; u a = a) &#10233; mapP u p = p&quot;</span></span></span><span>
-</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>swapping_mapP_FVarsP</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>swapping_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>termLikeStr_mapP_FVarsP</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>termLikeStr_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
 </span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>in_FVarsP_mapP</span><span class="delimiter">[</span><span>simp</span><span class="delimiter">]</span><span class="delimiter">:</span><span> 
 </span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;bij (u::&#39;a &#8658;&#39;a) &#10233; |supp u| &lt;o bound (any::&#39;a::var_TT) &#10233; 
  u a &#8712; FVarsP (mapP u p) &#10231; a &#8712; FVarsP p&quot;</span></span></span><span>
-</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>swapping_mapP_FVarsP</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>swapping_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>termLikeStr_mapP_FVarsP</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>termLikeStr_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
 </span><span>
 </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* *)</span></span></span></span></span><span>
 </span><span>
@@ -122,7 +124,7 @@
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>mapP_comp</span><span class="delimiter">:</span><span> 
 </span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;bij (u::&#39;a &#8658;&#39;a) &#10233; |supp u| &lt;o bound (any::&#39;a::var_TT) &#10233; bij v &#10233; |supp v| &lt;o bound (any::&#39;a) &#10233; 
  mapP (u o v) t = mapP u (mapP v t)&quot;</span></span></span><span>
-</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>swapping_mapP_FVarsP</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>swapping_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>termLikeStr_mapP_FVarsP</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>termLikeStr_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
 </span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>mapP_bij_inv</span><span class="delimiter">:</span><span> 
 </span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;bij (u::&#39;a &#8658;&#39;a)&quot;</span></span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|supp u| &lt;o bound (any::&#39;a::var_TT)&quot;</span></span></span><span>
@@ -199,22 +201,22 @@
 </span><span>
 </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(*  *)</span></span></span></span></span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>mmapC_id</span><span class="delimiter">[</span><span>simp</span><span class="delimiter">,</span><span>intro</span><span class="delimiter">!</span><span class="delimiter">]</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;mmapC id t = id&quot;</span></span></span><span>
-</span><span class="keyword1"><span class="command">using</span></span><span> </span><span>swapping_mmapC_FFVarsC</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>swappingC_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span class="keyword1"><span class="command">using</span></span><span> </span><span>termLikeStr_mmapC_FFVarsC</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>termLikeStrC_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
 </span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>mmapC_o</span><span class="delimiter">:</span><span> 
 </span><span class="string"><span class="delete"><span class="delete">&quot;bij (u::&#39;a &#8658;&#39;a) &#10233; |supp u| &lt;o bound (any::&#39;a::var_TT) &#10233; bij v &#10233; |supp v| &lt;o bound (any::&#39;a) &#10233; 
  mmapC (u o v) t = mmapC u t o mmapC v t&quot;</span></span></span><span>
-</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>swapping_mmapC_FFVarsC</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>swappingC_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>termLikeStr_mmapC_FFVarsC</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>termLikeStrC_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
 </span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>mmapC_cong_id</span><span class="delimiter">:</span><span> 
 </span><span class="string"><span class="delete"><span class="delete">&quot;bij (u::&#39;a &#8658;&#39;a) &#10233; |supp u| &lt;o bound (any::&#39;a::var_TT) &#10233; 
  (&#8896; a. a &#8712; FFVarsC t d &#10233; u a = a) &#10233; mmapC u t d = d&quot;</span></span></span><span>
-</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>swapping_mmapC_FFVarsC</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>swappingC_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>termLikeStr_mmapC_FFVarsC</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>termLikeStrC_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
 </span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>in_FFVarsC_mmapC</span><span class="delimiter">[</span><span>simp</span><span class="delimiter">]</span><span class="delimiter">:</span><span> 
 </span><span class="string"><span class="delete"><span class="delete">&quot;bij (u::&#39;a &#8658;&#39;a) &#10233; |supp u| &lt;o bound (any::&#39;a::var_TT) &#10233; 
  u a &#8712; FFVarsC (map_TT u t) (mmapC u t d) &#10231; a &#8712; FFVarsC t d&quot;</span></span></span><span>
-</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>swapping_mmapC_FFVarsC</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>swappingC_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>termLikeStr_mmapC_FFVarsC</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>termLikeStrC_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
 </span><span>
 </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* *)</span></span></span></span></span><span>
 </span><span>
@@ -224,7 +226,7 @@
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>mmapC_comp</span><span class="delimiter">:</span><span> 
 </span><span class="string"><span class="delete"><span class="delete">&quot;bij (u::&#39;a &#8658;&#39;a) &#10233; |supp u| &lt;o bound (any::&#39;a::var_TT) &#10233; bij v &#10233; |supp v| &lt;o bound (any::&#39;a) &#10233; 
  mmapC (u o v) t d = mmapC u t (mmapC v t d)&quot;</span></span></span><span>
-</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>swapping_mmapC_FFVarsC</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>swappingC_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>termLikeStr_mmapC_FFVarsC</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>termLikeStrC_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
 </span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>mmapC_bij_inv</span><span class="delimiter">:</span><span> 
 </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;bij (u::&#39;a &#8658;&#39;a)&quot;</span></span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|supp u| &lt;o bound (any::&#39;a::var_TT)&quot;</span></span></span><span>
@@ -308,8 +310,8 @@
 </span><span>
 </span><span> 
 </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(*******)</span></span></span></span></span><span>  
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Any FSw-Norrish model is an FSw-renaming model: *)</span></span></span></span></span><span>
-</span><span class="keyword1"><span class="command">theorem</span></span><span> </span><span>CCTOR_rename</span><span class="delimiter">:</span><span> 
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Any extended model is an &quot;renaming&quot; model: *)</span></span></span></span></span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>CCTOR_rename</span><span class="delimiter">:</span><span>   
 </span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>X</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;(&#39;a::var_TT, &#39;a, &#39;a TT &#215; (&#39;a P &#8658; &#39;a C),&#39;a TT &#215; (&#39;a P &#8658; &#39;a C)) F&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>p</span><span> </span><span>u</span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">defines</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;x &#8801; map_F id id fst fst X&quot;</span></span></span><span>  
 </span><span>  </span><span class="keyword2"><span class="keyword">defines</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;X&#39; &#8801; map_F u u (&#955;(t, pd). (map_TT u t, mmapPC u t pd))
@@ -319,7 +321,7 @@
 </span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>S</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8704; t pd p. (t,pd) &#8712; set3_F X &#8746; set4_F X &#10230; FFVarsC t (pd p) &#8838; FFVars t &#8746; FVarsP p &#8746; A&quot;</span></span></span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>u_imsupp</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;imsupp u &#8745; (FFVars (cctor x) &#8746; FVarsP p &#8746; A) = {}&quot;</span></span></span><span> 
 </span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* This one does not have to assumed for this proof to go through, 
-   meaning the Norrish-like conditions actually imply a stronger 
+   meaning the model conditions actually imply a stronger 
    version of CCTOR_rename: *)</span></span></span></span></span><span> </span><span>us</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;u ` set2_F X &#8745; set2_F X = {}&quot;</span></span></span><span> 
 </span><span>  </span><span class="keyword2"><span class="keyword">shows</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;CCTOR X p = CCTOR X&#39; p&quot;</span></span></span><span>
 </span><span class="keyword1"><span class="command">proof</span></span><span>-</span><span>
@@ -365,9 +367,8 @@
 </span><span>  </span><span class="keyword3"><span class="command">thus</span></span><span> </span><span class="var">?thesis</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>2</span><span> </span><span>x_def</span><span class="delimiter">[</span><span>symmetric</span><span class="delimiter">]</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>mmapC_inj</span><span class="delimiter">[</span><span>OF</span><span> </span><span>iu</span><span class="delimiter">]</span><span> </span><span class="keyword1"><span class="command">.</span></span><span>
 </span><span class="keyword1"><span class="command">qed</span></span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Any FSw-renaming model is an FSw-congruence model. 
-(In turn, in Datatype_Recursion2 we will prove that terms form the initial FSw-congruence model. ) *)</span></span></span></span></span><span>
-</span><span class="keyword1"><span class="command">theorem</span></span><span> </span><span>CCTOR_cong</span><span class="delimiter">:</span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Any &quot;renaming&quot; model is a &quot;congruence&quot; model.  *)</span></span></span></span></span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>CCTOR_cong</span><span class="delimiter">:</span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>X</span><span> </span><span>X&#39;</span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;(&#39;a::var_TT,&#39;a,&#39;a TT &#215; (&#39;a P &#8658; &#39;a C), &#39;a TT &#215; (&#39;a P &#8658; &#39;a C)) F&quot;</span></span></span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>p</span><span class="delimiter">::</span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a P&quot;</span></span></span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>u</span><span> </span><span>u&#39;</span><span class="delimiter">::</span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a&#8658;&#39;a&quot;</span></span></span><span> 
@@ -478,7 +479,7 @@
 </span><span>      </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>mmapfn_def</span><span> </span><span>mapfn_def</span><span> </span><span>fun_eq_iff</span><span> </span><span>mapC_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span> </span><span class="keyword1"><span class="command">.</span></span><span>
 </span><span class="keyword1"><span class="command">qed</span></span><span>    
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Preterm-based version of the assumptions: *)</span></span></span></span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Raw-term-based version of the assumptions: *)</span></span></span></span></span><span>
 </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* For the first block: *)</span></span></span></span></span><span> 
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>FVarsC_CTOR</span><span class="delimiter">:</span><span>  
 </span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8704; t pd p. (t,pd) &#8712; set3_F X &#8746; set4_F X &#10230; FVarsC t (pd p) &#8838; FVars t &#8746; FVarsP p &#8746; A&quot;</span></span></span><span>
@@ -624,8 +625,8 @@
 </span><span class="keyword1"><span class="command">qed</span></span><span>
 </span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The &quot;monster lemma&quot;: swapping and alpha must be treated in one shot 
-(and I also do &quot;pick&quot;-irrelevance at the same time). 
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The &quot;monster lemma&quot;: termLikeStr and alpha must be treated in one shot 
+(and we also do &quot;pick&quot;-irrelevance at the same time). 
 *)</span></span></span></span></span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>f_swap_alpha</span><span class="delimiter">:</span><span> 
 </span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span>p</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;suitable pick&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>p&#39;</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;suitable pick&#39;&quot;</span></span></span><span>

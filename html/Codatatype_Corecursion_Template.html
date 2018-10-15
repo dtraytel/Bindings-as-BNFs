@@ -20,9 +20,9 @@
 </span><span class="keyword2"><span class="keyword">begin</span></span><span>
 </span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Norrish&#39;s notation: *)</span></span></span></span></span><span>
-</span><span class="keyword1"><span class="command">definition</span></span><span> </span><span>swapping</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;((&#39;a::vvar_TT &#8658; &#39;a) &#8658; &#39;c &#8658; &#39;c) &#8658; (&#39;c &#8658; &#39;a set) &#8658; bool&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">where</span></span><span> 
-</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;swapping swp fvars &#8801;
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Term-like structures: *)</span></span></span></span></span><span>
+</span><span class="keyword1"><span class="command">definition</span></span><span> </span><span>termLikeStr</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;((&#39;a::vvar_TT &#8658; &#39;a) &#8658; &#39;c &#8658; &#39;c) &#8658; (&#39;c &#8658; &#39;a set) &#8658; bool&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">where</span></span><span> 
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;termLikeStr swp fvars &#8801;
   swp id = id &#8743; 
   (&#8704; u v. bij u &#8743; |supp u| &lt;o bound (any::&#39;a) &#8743; bij v &#8743; |supp v| &lt;o bound (any::&#39;a)
       &#10230; swp (u o v) = swp u o swp v) &#8743; 
@@ -31,17 +31,17 @@
   (&#8704; u c a. bij u &#8743; |supp u| &lt;o bound (any::&#39;a) 
      &#10230; (u a &#8712; fvars (swp u c) &#10231; a &#8712; fvars c))&quot;</span></span></span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Need to factor in terms in the &quot;swapping&quot; condition for &#39;a D -- a heavily restricted 
-&quot;swapping&quot; condition, only assuming functoriality and nothing else; 
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* A restricted version of &quot;termLikeStr&quot; to be used for the comodels -- it only 
+assums small-support bijection functoriality and nothing else, 
 in particular nothing about freshness.  *)</span></span></span></span></span><span>
-</span><span class="keyword1"><span class="command">abbreviation</span></span><span> </span><span>swappingD</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;((&#39;a::vvar_TT &#8658; &#39;a) &#8658; &#39;c &#8658; &#39;c) &#8658; bool&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">where</span></span><span> 
-</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;swappingD swp  &#8801;
+</span><span class="keyword1"><span class="command">abbreviation</span></span><span> </span><span>termLikeStrD</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;((&#39;a::vvar_TT &#8658; &#39;a) &#8658; &#39;c &#8658; &#39;c) &#8658; bool&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">where</span></span><span> 
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;termLikeStrD swp  &#8801;
   (&#8704; c. swp id c = c) &#8743; 
   (&#8704; u v c. bij u &#8743; |supp u| &lt;o bound (any::&#39;a) &#8743; bij v &#8743; |supp v| &lt;o bound (any::&#39;a)
     &#10230;  swp (u o v) c = swp u (swp v c))&quot;</span></span></span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The following will not be used in the development, but motivates the 
-chosen axioms for DDTOR by showing that the terms satisfy them for their natural destructor.  *)</span></span></span></span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The following definition and three properties will not be used in the development, but motivate the 
+chosen axioms for DDTOR by showing that the terms satisfy them for their natural destructor:  *)</span></span></span></span></span><span>
 </span><span class="keyword1"><span class="command">definition</span></span><span> </span><span>ddtor</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a::vvar_TT TT &#8658; (&#39;a, &#39;a, &#39;a TT, &#39;a TT) F set&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">where</span></span><span> 
 </span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;ddtor t &#8801; {x . t = cctor x}&quot;</span></span></span><span>
 </span><span>
@@ -58,35 +58,34 @@ chosen axioms for DDTOR by showing that the terms satisfy them for their natural
 </span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;x &#8712; ddtor t&quot;</span></span></span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">shows</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;FFVars t = set1_F x &#8746; UNION (set3_F x) FFVars &#8746; FFVarsB x&quot;</span></span></span><span>
 </span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>assms</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>ddtor_def</span><span> </span><span>FFVars_simps</span><span class="delimiter">)</span><span>
-</span><span>    </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(****)</span></span></span></span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(****)</span></span></span></span></span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The domain type: *)</span></span></span></span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The comodel type: *)</span></span></span></span></span><span>
 </span><span class="keyword1"><span class="command">template</span></span><span> </span><span>COREC</span><span> </span><span class="delimiter">=</span><span> </span><span class="tfree">&#39;a</span><span> </span><span>D</span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Destructor-like operator (nondeterministic, as would be the one for terms): *)</span></span></span></span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Nondeterministic destructor-like operator: *)</span></span></span></span></span><span>
 </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>DDTOR</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a::vvar_TT D &#8658; (&#39;a, &#39;a, &#39;a TT + &#39;a D, &#39;a TT + &#39;a D) F set&quot;</span></span></span><span>
-</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Bijective-mapping (swapping) and freshness like operators for the domain. 
-Note: Here, the &quot;primitive corecursion&quot; sum in the types of mmapD and FFVarsD 
-do not seem to bring anything---I end up with all conditions composed with Inr.  *)</span></span></span></span></span><span>
+</span><span> </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Bijective-mapping- and freshness- like like operators for the comodel. 
+NB: Here, the &quot;primitive corecursion&quot;-style sum in the types of mmapD and FFVarsD 
+do not seem to bring anything--we would end up with all conditions composed with Inr.  *)</span></span></span></span></span><span>
 </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>mmapD</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;(&#39;a::vvar_TT &#8658; &#39;a) &#8658; &#39;a D &#8658; &#39;a D&quot;</span></span></span><span>
 </span><span class="keyword2"><span class="keyword">and</span></span><span>  </span><span>FFVarsD</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a::vvar_TT D &#8658; &#39;a set&quot;</span></span></span><span>
 </span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Comodel axiomatization: *)</span></span></span></span></span><span>
 </span><span class="keyword2"><span class="keyword">assumes</span></span><span>
-</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The destructor is non-empty and deterministic modulo a renaming: *)</span></span></span></span></span><span>
+</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Full-corecursion version of the clauses (Dne), (MD), (VD) and (DRen) from the paper: *)</span></span></span></span></span><span>
 </span><span>  </span><span>DDTOR_ne</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896; d. DDTOR d &#8800; {}&quot;</span></span></span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span> 
 </span><span>  </span><span>DDTOR_mmapD0</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896; X X&#39; d. {X,X&#39;} &#8838; DDTOR d &#10233; 
 &#8707;u. bij (u::&#39;a &#8658; &#39;a) &#8743; |supp u| &lt;o bound(any::&#39;a::vvar_TT) &#8743; id_on (UNION (set4_F X) (case_sum FFVars FFVarsD) - set2_F X) u &#8743; 
      map_F id u id (map_sum (map_TT u) (mmapD u)) X = X&#39;&quot;</span></span></span><span> 
-</span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span> 
-</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The dual of the first block of assumptions from Norrish&#39;s paper:   *)</span></span></span></span></span><span> 
+</span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span>   
 </span><span>  </span><span>FFVarsD_DDTOR0</span><span class="delimiter">:</span><span> 
 </span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896; d X. X &#8712; DDTOR d &#10233; 
   set1_F X &#8746; UNION (set3_F X) (case_sum FFVars FFVarsD) &#8746;
    (UNION (set4_F X) (case_sum FFVars FFVarsD) - set2_F X) &#8838; 
   FFVarsD d&quot;</span></span></span><span>  
-</span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span> 
-</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The dual of the third block: *)</span></span></span></span></span><span> 
+</span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span>  
 </span><span>  </span><span>mmapD_DDTOR</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896; u d.
   bij (u::&#39;a&#8658;&#39;a) &#10233; |supp u| &lt;o bound(any::&#39;a::vvar_TT) &#10233; 
   DDTOR (mmapD u d) &#8838;
@@ -94,8 +93,8 @@ do not seem to bring anything---I end up with all conditions composed with Inr. 
     (map_F u u (map_sum (map_TT u) (mmapD u)) (map_sum (map_TT u) (mmapD u))) 
     (DDTOR d)&quot;</span></span></span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span> 
-</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Restricted first block: *)</span></span></span></span></span><span>
-</span><span>  </span><span>swapping_mmapD_FFVarsD</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;swappingD mmapD&quot;</span></span></span><span>
+</span><span>  </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Comodels are a restricted term-like structure: *)</span></span></span></span></span><span>
+</span><span>  </span><span>termLikeStr_mmapD_FFVarsD</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;termLikeStrD mmapD&quot;</span></span></span><span>
 </span><span class="keyword2"><span class="keyword">begin</span></span><span>
 </span><span>
 </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Defined analogously to the FVarsB: *)</span></span></span></span></span><span>
@@ -107,12 +106,12 @@ do not seem to bring anything---I end up with all conditions composed with Inr. 
 </span><span>
 </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(*  *)</span></span></span></span></span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>mmapD_id</span><span class="delimiter">[</span><span>simp</span><span class="delimiter">,</span><span>intro</span><span class="delimiter">!</span><span class="delimiter">]</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;mmapD id d = d&quot;</span></span></span><span>
-</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>swapping_mmapD_FFVarsD</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>termLikeStr_mmapD_FFVarsD</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
 </span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>mmapD_comp</span><span class="delimiter">:</span><span> 
 </span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;bij (u::&#39;a&#8658;&#39;a) &#10233; |supp u| &lt;o bound (any::&#39;a::vvar_TT) &#10233; bij v &#10233; |supp v| &lt;o bound (any::&#39;a) &#10233; 
  mmapD (u o v) d = mmapD u (mmapD v d)&quot;</span></span></span><span>
-</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>swapping_mmapD_FFVarsD</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>termLikeStr_mmapD_FFVarsD</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
 </span><span>
 </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(*  *)</span></span></span></span></span><span>
 </span><span>
@@ -156,7 +155,7 @@ do not seem to bring anything---I end up with all conditions composed with Inr. 
 </span><span class="keyword1"><span class="command">lemmas</span></span><span> </span><span>FVars_def2</span><span> </span><span class="delimiter">=</span><span> </span><span>FFVars.abs_eq</span><span class="delimiter">[</span><span>symmetric</span><span class="delimiter">]</span><span>
 </span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Preterm-based version of the assumptions: *)</span></span></span></span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Raw-term-based version of the assumptions: *)</span></span></span></span></span><span>
 </span><span>
 </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(*  *)</span></span></span></span></span><span>
 </span><span class="keyword1"><span class="command">lemmas</span></span><span> </span><span>mapD_id</span><span> </span><span class="delimiter">=</span><span> </span><span>mmapD_id</span><span> 
@@ -344,7 +343,7 @@ do not seem to bring anything---I end up with all conditions composed with Inr. 
 </span><span>      </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>u</span><span> </span><span>v</span><span> </span><span>T_map_comp</span><span> </span><span>mapD_comp</span><span class="delimiter">[</span><span>symmetric</span><span class="delimiter">]</span><span class="delimiter">)</span><span> </span><span class="keyword1"><span class="command">.</span></span><span> 
 </span><span class="keyword1"><span class="command">qed</span></span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The &quot;monster lemma&quot;: swapping and &quot;pick&quot;-irrelevance covered in one shot: *)</span></span></span></span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The &quot;monster lemma&quot;: termLikeStr and &quot;pick&quot;-irrelevance covered in one shot: *)</span></span></span></span></span><span>
 </span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>f_swap_alpha</span><span class="delimiter">:</span><span> 
 </span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span>p</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;suitable pick&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>p&#39;</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;suitable pick&#39;&quot;</span></span></span><span>
@@ -497,7 +496,7 @@ do not seem to bring anything---I end up with all conditions composed with Inr. 
 </span><span class="keyword1"><span class="command">lemmas</span></span><span> </span><span>f0_FVarsD</span><span> </span><span class="delimiter">=</span><span> </span><span>f_FVarsD</span><span class="delimiter">[</span><span>OF</span><span> </span><span>suitable_pick0</span><span class="delimiter">,</span><span> </span><span>unfolded</span><span> </span><span>f0_def</span><span class="delimiter">[</span><span>symmetric</span><span class="delimiter">]</span><span class="delimiter">]</span><span>
 </span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The following theorems for raw theorems will now be lifted to quotiented terms: *)</span></span></span></span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The following theorems for raw terms will now be lifted to quotiented terms: *)</span></span></span></span></span><span>
 </span><span class="keyword1"><span class="command">thm</span></span><span> </span><span>f0_DTOR</span><span> </span><span>f0_mapD</span><span> </span><span>f0_FVarsD</span><span> 
 </span><span>
 </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(*******************)</span></span></span></span></span><span>

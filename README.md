@@ -4,8 +4,8 @@ and (co)recursors related to the paper
 > **Bindings as Bounded Natural Functors**<br/>
 > Jasmin Christian Blanchette, Lorenzo Gheri, Andrei Popescu, Dmitriy Traytel
 
-The formal development can be browsed as a generated HTML page
-(html/index.html). A better way to study the theory files, however, is to open
+The formal development can be browsed as a [generated HTML page]
+(https://htmlpreview.github.io/?https://github.com/dtraytel/Bindings-as-BNFs/blob/master/html/index.html) (see also the html directory). A better way to study the theory files, however, is to open
 them in Isabelle/jEdit.
 
 The raw Isabelle sources are included in a separate directory called thys.
@@ -73,7 +73,7 @@ corresponding reasoning principles of fresh induction
 (```TT_existential_coinduct```, Theorem 16).
 
 6. ```More_Datatype_Bindings.thy``` and ```More_Codatatype_Bindings.thy```:
-Additional helpful auxiliary theorems following from ```TT```'s construction.
+Additional helpful lemmas following from ```TT```'s construction.
 
 7. ```Datatype_Recursion_Template.thy``` and
 ```Codatatype_Corecursion_Template.thy```: The constructions of the
@@ -81,7 +81,7 @@ binding-aware recursor (Section 7.1) and corecursor (Section 7.2), both
 implemented as templates. Our formalization supports full-fledged (co)recursion,
 and not just (co)iteration. The latter is preferred in the paper because it is
 more lightweight. The templates' assumptions correspond to the definitions of
-term-like-structures (various ```swapping``` assumptions and predicates
+term-like-structures (various ```termLikeStr``` assumptions and predicates
 reflecting Definitions 17 and 18) and (co)models (Definitions 19 and 22). The
 (co)recursors characteristic properties are the theorems ```ff0_cctor```,
 ```ff0_DDTOR```, ```ff0_mmapD```, and ```ff0_FFVarsD``` (properties C, D, M, V

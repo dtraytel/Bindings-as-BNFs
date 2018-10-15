@@ -2,9 +2,9 @@ theory Datatype_Recursion_Template
   imports More_Datatype_Bindings Template
 begin
 
-(* Norrish's notation: *)
-definition swapping :: "(('a::var_TT \<Rightarrow> 'a) \<Rightarrow> 'c \<Rightarrow> 'c) \<Rightarrow> ('c \<Rightarrow> 'a set) \<Rightarrow> bool" where 
-  "swapping swp fvars \<equiv>
+(* Term-like structures: *)
+definition termLikeStr :: "(('a::var_TT \<Rightarrow> 'a) \<Rightarrow> 'c \<Rightarrow> 'c) \<Rightarrow> ('c \<Rightarrow> 'a set) \<Rightarrow> bool" where 
+  "termLikeStr swp fvars \<equiv>
   swp id = id \<and> 
   (\<forall> u v. bij u \<and> |supp u| <o bound (any::'a) \<and> bij v \<and> |supp v| <o bound (any::'a)
       \<longrightarrow> swp (u o v) = swp u o swp v) \<and> 
@@ -13,9 +13,9 @@ definition swapping :: "(('a::var_TT \<Rightarrow> 'a) \<Rightarrow> 'c \<Righta
   (\<forall> u c a. bij u \<and> |supp u| <o bound (any::'a) 
      \<longrightarrow> (u a \<in> fvars (swp u c) \<longleftrightarrow> a \<in> fvars c))"
 
-(* Need to factor in terms in the "swapping" condition for 'a C: *)
-definition swappingC :: "(('a::var_TT \<Rightarrow> 'a) \<Rightarrow> 'a TT \<Rightarrow> 'c \<Rightarrow> 'c) \<Rightarrow> ('a TT \<Rightarrow> 'c \<Rightarrow> 'a set) \<Rightarrow> bool" where 
-"swappingC mp fvars \<equiv>
+(* Extended term-like structures (needed for full-fledged recursion): *)
+definition termLikeStrC :: "(('a::var_TT \<Rightarrow> 'a) \<Rightarrow> 'a TT \<Rightarrow> 'c \<Rightarrow> 'c) \<Rightarrow> ('a TT \<Rightarrow> 'c \<Rightarrow> 'a set) \<Rightarrow> bool" where 
+"termLikeStrC mp fvars \<equiv>
   (\<forall> t. mp id t = id) \<and> 
   (\<forall> u v t. bij u \<and> |supp u| <o bound (any::'a) \<and> bij v \<and> |supp v| <o bound (any::'a)
     \<longrightarrow> mp (u o v) t = mp u t o mp v t) \<and> 
@@ -24,45 +24,47 @@ definition swappingC :: "(('a::var_TT \<Rightarrow> 'a) \<Rightarrow> 'a TT \<Ri
   (\<forall> u c a t. bij u \<and> |supp u| <o bound (any::'a) \<longrightarrow> 
      (u a \<in> fvars (map_TT u t) (mp u t c) \<longleftrightarrow> a \<in> fvars t c))"
 
-(* Swapping for functions involving quotiented terms -- just a useful notation *)
+(* Lifting of the map operators to functions involving quotiented terms -- just a useful notation *)
 definition mmapfn :: "(('a::var_TT \<Rightarrow> 'a) \<Rightarrow> 'c \<Rightarrow> 'c) \<Rightarrow> (('a \<Rightarrow> 'a) \<Rightarrow> 'a TT \<Rightarrow> 'd \<Rightarrow> 'd) \<Rightarrow> 
  ('a \<Rightarrow> 'a) \<Rightarrow> 'a TT \<Rightarrow> ('c \<Rightarrow> 'd) \<Rightarrow> ('c \<Rightarrow> 'd)" where 
   "mmapfn swp1 swp2 \<equiv> \<lambda> u t cd c. swp2 u t (cd (swp1 (inv u) c))"
 
 template REC =
-(* The codomain and parameter types: *)
+(* The model and parameter types: *)
    'a::var_TT C  and 'a::var_TT P
-
-(*  locale FSw_model_fixes = *)
-(* The variables to be avoided: *)
+(* Some variables to be avoided (technically subsumed by the parameters, 
+   but lighter so we factor them in too) -- see the paper's appendix D.1 *)
 fixes A :: "'a::var_TT set"  
-  (* Constructor-like operator: *)
+  (* Constructor-like operator on the model: *)
 and CCTOR :: "('a::var_TT, 'a, 'a TT \<times> ('a P \<Rightarrow> 'a C), 'a TT \<times> ('a P \<Rightarrow> 'a C)) F \<Rightarrow> 'a P \<Rightarrow> 'a C"
-  (* Swapping- and freshness like operators for the codomain: *)
+  (* Map- and freshness- like operators on the model: *)
 and mmapC :: "('a::var_TT \<Rightarrow> 'a) \<Rightarrow> 'a TT \<Rightarrow> 'a C \<Rightarrow> 'a C"
 and FFVarsC :: "'a::var_TT TT \<Rightarrow> 'a C \<Rightarrow> 'a set"
-  (* Swapping- and freshness like operators for the parameters: *)
+  (* Map- and freshness- like operators for the parameters: *)
 and mapP :: "('a::var_TT \<Rightarrow> 'a) \<Rightarrow> 'a P \<Rightarrow> 'a P"
 and FVarsP :: "'a::var_TT P \<Rightarrow> 'a set" 
 
-(* locale FSw_model_basic = FSw_model_fixes +  *)
-(*  *)
+(* The model axiomatization: *)
 assumes  
   small_A: "|A| <o bound (any::'a :: var_TT)"
   and 
-  (* First block of assumptions from Norrish's paper:   *)
+  (* The smallness condition that turns a term-like structure into a parameter structure    *)
   small_FVarsP: "\<And> p :: 'a P. |FVarsP p| <o bound (any::'a :: var_TT)"
   and 
-  swapping_mapP_FVarsP: "swapping mapP FVarsP" 
+  (* Parameters form a term-like structure: *)
+  termLikeStr_mapP_FVarsP: "termLikeStr mapP FVarsP" 
   (*  *)
   and   
+  (* Next are the two model clauses from the paper, more precisely from the paper's appendix D.2 which 
+     deals with full-fledged corecursion). *) 
+  (* Condition (VC): *)
   FFVarsC_CCTOR: "\<And> X p. 
   (\<forall> t pd p. (t,pd) \<in> set3_F X \<union> set4_F X \<longrightarrow> FFVarsC t (pd p) \<subseteq> FFVars t \<union> FVarsP p \<union> A)
   \<Longrightarrow> \<comment>\<open> L's twist: \<close> set2_F X \<inter> (FVarsP p \<union> A) = {} 
   \<Longrightarrow> FFVarsC (cctor (map_F id id fst fst X)) (CCTOR X p) \<subseteq> 
       FFVars (cctor (map_F id id fst fst X)) \<union> FVarsP p \<union> A"
   and 
-  (* Third block: *) 
+  (* Condition (MC): *)
   mmapC_CCTOR: "\<And> u X (p :: 'a P). 
   bij u \<Longrightarrow> |supp u| <o bound(any::'a :: var_TT) \<Longrightarrow>
   imsupp u \<inter> A = {} \<Longrightarrow>
@@ -70,8 +72,8 @@ assumes
   CCTOR (map_F u u (\<lambda> (t,pd). (map_TT u t, mmapfn mapP mmapC u t pd)) 
                    (\<lambda> (t,pd). (map_TT u t, mmapfn mapP mmapC u t pd)) X) 
         (mapP u p)"
-and swapping_mmapC_FFVarsC: "swappingC mmapC FFVarsC" 
-
+ (* Models form a term-like structure: *)
+and termLikeStr_mmapC_FFVarsC: "termLikeStrC mmapC FFVarsC" 
 
 begin
 
@@ -82,20 +84,20 @@ abbreviation "mmapPC \<equiv> mmapfn mapP mmapC"
 
 (*  *)
 lemma mapP_id[simp,intro!]: "mapP id = id"
-  using swapping_mapP_FVarsP unfolding swapping_def by auto
+  using termLikeStr_mapP_FVarsP unfolding termLikeStr_def by auto
 
 lemma mapP_o: "bij (u::'a \<Rightarrow>'a) \<Longrightarrow> |supp u| <o bound (any::'a::var_TT) \<Longrightarrow> bij v \<Longrightarrow> |supp v| <o bound (any::'a) \<Longrightarrow>
   mapP (u o v) = mapP u o mapP v"
-  using swapping_mapP_FVarsP unfolding swapping_def by auto
+  using termLikeStr_mapP_FVarsP unfolding termLikeStr_def by auto
 
 lemma mapP_cong_id: "bij (u::'a \<Rightarrow>'a) \<Longrightarrow> |supp u| <o bound (any::'a::var_TT) \<Longrightarrow> 
  (\<And> a. a \<in> FVarsP p \<Longrightarrow> u a = a) \<Longrightarrow> mapP u p = p"
-  using swapping_mapP_FVarsP unfolding swapping_def by auto
+  using termLikeStr_mapP_FVarsP unfolding termLikeStr_def by auto
 
 lemma in_FVarsP_mapP[simp]: 
   "bij (u::'a \<Rightarrow>'a) \<Longrightarrow> |supp u| <o bound (any::'a::var_TT) \<Longrightarrow> 
  u a \<in> FVarsP (mapP u p) \<longleftrightarrow> a \<in> FVarsP p"
-  using swapping_mapP_FVarsP unfolding swapping_def by auto
+  using termLikeStr_mapP_FVarsP unfolding termLikeStr_def by auto
 
 (* *)
 
@@ -105,7 +107,7 @@ lemma mapP_id2[simp,intro!]: "mapP id p = p"
 lemma mapP_comp: 
   "bij (u::'a \<Rightarrow>'a) \<Longrightarrow> |supp u| <o bound (any::'a::var_TT) \<Longrightarrow> bij v \<Longrightarrow> |supp v| <o bound (any::'a) \<Longrightarrow> 
  mapP (u o v) t = mapP u (mapP v t)"
-  using swapping_mapP_FVarsP unfolding swapping_def by auto
+  using termLikeStr_mapP_FVarsP unfolding termLikeStr_def by auto
 
 lemma mapP_bij_inv: 
   assumes "bij (u::'a \<Rightarrow>'a)" "|supp u| <o bound (any::'a::var_TT)"
@@ -182,22 +184,22 @@ lemma CTOR_alpha:
 
 (*  *)
 lemma mmapC_id[simp,intro!]: "mmapC id t = id"
-using swapping_mmapC_FFVarsC unfolding swappingC_def by auto
+using termLikeStr_mmapC_FFVarsC unfolding termLikeStrC_def by auto
 
 lemma mmapC_o: 
 "bij (u::'a \<Rightarrow>'a) \<Longrightarrow> |supp u| <o bound (any::'a::var_TT) \<Longrightarrow> bij v \<Longrightarrow> |supp v| <o bound (any::'a) \<Longrightarrow> 
  mmapC (u o v) t = mmapC u t o mmapC v t"
-  using swapping_mmapC_FFVarsC unfolding swappingC_def by auto
+  using termLikeStr_mmapC_FFVarsC unfolding termLikeStrC_def by auto
 
 lemma mmapC_cong_id: 
 "bij (u::'a \<Rightarrow>'a) \<Longrightarrow> |supp u| <o bound (any::'a::var_TT) \<Longrightarrow> 
  (\<And> a. a \<in> FFVarsC t d \<Longrightarrow> u a = a) \<Longrightarrow> mmapC u t d = d"
-  using swapping_mmapC_FFVarsC unfolding swappingC_def by auto
+  using termLikeStr_mmapC_FFVarsC unfolding termLikeStrC_def by auto
 
 lemma in_FFVarsC_mmapC[simp]: 
 "bij (u::'a \<Rightarrow>'a) \<Longrightarrow> |supp u| <o bound (any::'a::var_TT) \<Longrightarrow> 
  u a \<in> FFVarsC (map_TT u t) (mmapC u t d) \<longleftrightarrow> a \<in> FFVarsC t d"
-  using swapping_mmapC_FFVarsC unfolding swappingC_def by auto
+  using termLikeStr_mmapC_FFVarsC unfolding termLikeStrC_def by auto
 
 (* *)
 
@@ -207,7 +209,7 @@ using mmapC_id by simp
 lemma mmapC_comp: 
 "bij (u::'a \<Rightarrow>'a) \<Longrightarrow> |supp u| <o bound (any::'a::var_TT) \<Longrightarrow> bij v \<Longrightarrow> |supp v| <o bound (any::'a) \<Longrightarrow> 
  mmapC (u o v) t d = mmapC u t (mmapC v t d)"
-  using swapping_mmapC_FFVarsC unfolding swappingC_def by auto
+  using termLikeStr_mmapC_FFVarsC unfolding termLikeStrC_def by auto
 
 lemma mmapC_bij_inv: 
 assumes "bij (u::'a \<Rightarrow>'a)" "|supp u| <o bound (any::'a::var_TT)"
@@ -291,8 +293,8 @@ lemma mmapPC_inj:
 
  
 (*******)  
-(* Any FSw-Norrish model is an FSw-renaming model: *)
-theorem CCTOR_rename: 
+(* Any extended model is an "renaming" model: *)
+lemma CCTOR_rename:   
   fixes X :: "('a::var_TT, 'a, 'a TT \<times> ('a P \<Rightarrow> 'a C),'a TT \<times> ('a P \<Rightarrow> 'a C)) F" and p u
   defines "x \<equiv> map_F id id fst fst X"  
   defines "X' \<equiv> map_F u u (\<lambda>(t, pd). (map_TT u t, mmapPC u t pd))
@@ -302,7 +304,7 @@ theorem CCTOR_rename:
   and S: "\<forall> t pd p. (t,pd) \<in> set3_F X \<union> set4_F X \<longrightarrow> FFVarsC t (pd p) \<subseteq> FFVars t \<union> FVarsP p \<union> A"
   and u_imsupp: "imsupp u \<inter> (FFVars (cctor x) \<union> FVarsP p \<union> A) = {}" 
   and (* This one does not have to assumed for this proof to go through, 
-   meaning the Norrish-like conditions actually imply a stronger 
+   meaning the model conditions actually imply a stronger 
    version of CCTOR_rename: *) us: "u ` set2_F X \<inter> set2_F X = {}" 
   shows "CCTOR X p = CCTOR X' p"
 proof-
@@ -348,9 +350,8 @@ proof-
   thus ?thesis unfolding 2 x_def[symmetric] unfolding mmapC_inj[OF iu] .
 qed
 
-(* Any FSw-renaming model is an FSw-congruence model. 
-(In turn, in Datatype_Recursion2 we will prove that terms form the initial FSw-congruence model. ) *)
-theorem CCTOR_cong:
+(* Any "renaming" model is a "congruence" model.  *)
+lemma CCTOR_cong:
   fixes X X':: "('a::var_TT,'a,'a TT \<times> ('a P \<Rightarrow> 'a C), 'a TT \<times> ('a P \<Rightarrow> 'a C)) F"
   and p::"'a P"
   and u u'::"'a\<Rightarrow>'a" 
@@ -461,7 +462,7 @@ proof-
       unfolding mmapfn_def mapfn_def fun_eq_iff mapC_def by auto .
 qed    
 
-(* Preterm-based version of the assumptions: *)
+(* Raw-term-based version of the assumptions: *)
 (* For the first block: *) 
 lemma FVarsC_CTOR:  
   assumes "\<forall> t pd p. (t,pd) \<in> set3_F X \<union> set4_F X \<longrightarrow> FVarsC t (pd p) \<subseteq> FVars t \<union> FVarsP p \<union> A"
@@ -607,8 +608,8 @@ proof (induction t arbitrary: p rule: subshape_induct)
 qed
 
 
-(* The "monster lemma": swapping and alpha must be treated in one shot 
-(and I also do "pick"-irrelevance at the same time). 
+(* The "monster lemma": termLikeStr and alpha must be treated in one shot 
+(and we also do "pick"-irrelevance at the same time). 
 *)
 lemma f_swap_alpha: 
   assumes p: "suitable pick" and p': "suitable pick'"

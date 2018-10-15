@@ -19,27 +19,31 @@
 </span><span>  </span><span class="keyword2"><span class="keyword">imports</span></span><span> </span><span>Common_Data_Codata_Bindings</span><span>
 </span><span class="keyword2"><span class="keyword">begin</span></span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* This theory shows that starting with the pullback-preserving MRBNF F, which is
-
-a BNF in third and fourth position, small-support-endo-BNF in the first, and binder-BNF in the second
-
-and applying Make_Binder at position 3 we obtain a pullback-preserving MRBNF F&#39;, which is
-
-a BNF in fourth position, small-support-endo-BNF in the first, and binder-BNF in the second and third
-
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* This theory we start with an MRBNF F, which is assumed (in the imported theory 
+Common_Data_Codata_Bindings) to have the following characteristics:
+  ** is map-constrained to small-support endofunctions in the 1st position, 
+  ** is map-constrained to small-support endobijections in the 2nd position,  
+  ** is unconstrained in the 3rd and 4th position.   
+We show that applying the nonrepetitiveness construction at the 3rd position (on which F is assumed 
+to be pullback-preserving), we transform it into an MRBNF F&#39; that has the same characteristics 
+as F except that the 3rd position becomes map-constrained to small-support endobijections.  
 *)</span></span></span></span></span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Assume strong BNF (on the BNF arguments only, here, 3 and 4 : *)</span></span></span></span></span><span>
 </span><span class="keyword1"><span class="command">axiomatization</span></span><span> </span><span class="keyword2"><span class="keyword">where</span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The next property assumes preservation of pullbacks on the third position. 
+   NB: All MRBNFs already preserve _weak_ pullbacks, i.e., they satisfy the following property 
+   without uniqueness.  *)</span></span></span></span></span><span>
 </span><span>  </span><span>F_rel_map_set2_strong</span><span class="delimiter">:</span><span> 
 </span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896; R S (x :: (&#39;a :: var_TT,&#39;b :: var_TT,&#39;c,&#39;d) F) y.
     rrel_F R S x y =
       (&#8707;!z. set3_F z &#8838; {(x, y). R x y} &#8743;
-           set4_F z &#8838; {(x, y). S x y} &#8743; map_F id id fst fst z = x &#8743; map_F id id snd snd z = y)&quot;</span></span></span><span>
+            set4_F z &#8838; {(x, y). S x y} &#8743; map_F id id fst fst z = x &#8743; map_F id id snd snd z = y)&quot;</span></span></span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">and</span></span><span>
 </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The next property assumes that nonrepetitive elements exist: *)</span></span></span></span></span><span>
 </span><span>  </span><span>ex_nonrep</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8707;x. &#8704;x&#39;. (&#8707; R. rrel_F R (=) x x&#39;) &#10230; (&#8707; f. x&#39; = map_F id id f id x)&quot;</span></span></span><span>
 </span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Important consequence of preservation of pullbacks (which is actually equivalent to it): 
+The relator is closed under intersections. *)</span></span></span></span></span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>F_strong</span><span class="delimiter">:</span><span>
 </span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;rel_F id id R3 R4 x y &#10233; rel_F id id Q3 Q4 x y &#10233; rel_F id id (inf R3 Q3) (inf R4 Q4) x y&quot;</span></span></span><span>
 </span><span>  </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>rel_F_def</span><span> </span><span>F_map_id</span><span>
@@ -56,11 +60,7 @@ a BNF in fourth position, small-support-endo-BNF in the first, and binder-BNF in
 </span><span>    </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">done</span></span></span></span><span>
 </span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">done</span></span></span></span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The above is equivalent with preservation of (strong) pullbacks; it is preserved by 
-composition and (co)data, giving the &quot;free/nonpermutative&quot; (co)datatypes. 
-It is satisfied by the basic BNFs, but not by set-like BNFs.  *)</span></span></span></span></span><span>
-</span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* It implies the following &quot;exchange&quot;-property, which could be read: 
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Another important consequence: the following &quot;exchange&quot;-property, which could be read: 
 Since the atoms have a fixed position, we can permute the relations: *)</span></span></span></span></span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>rel_F_exchange</span><span class="delimiter">:</span><span> 
 </span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>x</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;(&#39;a1::var_TT,&#39;a2::var_TT,&#39;a3,&#39;a4) F&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>x&#39;</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;(&#39;a1,&#39;a2,&#39;a3&#39;,&#39;a4&#39;) F&quot;</span></span></span><span>
@@ -68,6 +68,7 @@ Since the atoms have a fixed position, we can permute the relations: *)</span></
 </span><span>  </span><span class="keyword2"><span class="keyword">shows</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;rel_F id id R2 Q3 x x&#39;&quot;</span></span></span><span> 
 </span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>rule</span><span> </span><span>F_rel_mono_strong1</span><span class="delimiter">[</span><span>OF</span><span> </span><span>supp_id_bound</span><span> </span><span>bij_id</span><span> </span><span>supp_id_bound</span><span> </span><span>F_strong</span><span class="delimiter">[</span><span>OF</span><span> </span><span>assms</span><span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">)</span><span> </span><span>auto</span><span>
 </span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Then notion of two items having the same shape (w.r.t. the 3rd position): *)</span></span></span></span></span><span>
 </span><span class="keyword1"><span class="command">definition</span></span><span> </span><span>sameShape1</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;(&#39;a1::var_TT,&#39;a2::var_TT,&#39;a3,&#39;a4) F &#8658; (&#39;a1,&#39;a2,&#39;a3,&#39;a4) F &#8658; bool&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">where</span></span><span> 
 </span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;sameShape1 x x&#39; &#8801; &#8707; R. rel_F id id R (=) x x&#39;&quot;</span></span></span><span>
 </span><span>
@@ -103,7 +104,7 @@ Since the atoms have a fixed position, we can permute the relations: *)</span></
 </span><span>    </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>simp</span><span>
 </span><span class="keyword1"><span class="command">qed</span></span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Here we use the BNF strength: *)</span></span></span></span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Here we need pullback preservation: *)</span></span></span></span></span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>nonrep2_map_F_rev</span><span class="delimiter">:</span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>x</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;(&#39;a1::var_TT,&#39;a2::var_TT,&#39;a3,&#39;a4) F&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>u</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a2&#8658;&#39;a2&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>g</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a4 &#8658; &#39;b4&quot;</span></span></span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span>u</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;bij u&quot;</span></span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|supp u| &lt;o bound(any::&#39;a2)&quot;</span></span></span><span> 
@@ -187,7 +188,7 @@ Since the atoms have a fixed position, we can permute the relations: *)</span></
 </span><span class="keyword1"><span class="command">lift_definition</span></span><span> </span><span>rrel_F&#39;</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;(&#39;a4 &#8658; &#39;a4&#39; &#8658; bool) &#8658; (&#39;a1::var_TT,&#39;a2::var_TT,&#39;a3::var_TT,&#39;a4) F&#39; &#8658; (&#39;a1,&#39;a2,&#39;a3,&#39;a4&#39;) F&#39; &#8658; bool&quot;</span></span></span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">is</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;rrel_F (=)&quot;</span></span></span><span> </span><span class="keyword1"><span class="command">.</span></span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Verifying the axioms of a MRBNF *)</span></span></span></span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Verifying the axioms of a MRBNF for F&#39;:  *)</span></span></span></span></span><span>
 </span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>F&#39;_map_id</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;map_F&#39; id id id id = id&quot;</span></span></span><span>
 </span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>rule</span><span> </span><span>ext</span><span class="delimiter">,</span><span> </span><span>transfer</span><span class="delimiter">)</span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>F_map_id</span><span> </span><span>asSS_def</span><span class="delimiter">)</span><span>
@@ -267,53 +268,6 @@ Since the atoms have a fixed position, we can permute the relations: *)</span></
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>F&#39;_rel_comp_leq_</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;rrel_F&#39; Q OO rrel_F&#39; R &#8804; rrel_F&#39; (Q OO R)&quot;</span></span></span><span>
 </span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>intro</span><span> </span><span>predicate2I</span><span class="delimiter">,</span><span> </span><span>transfer</span><span class="delimiter">)</span><span>
 </span><span>    </span><span class="delimiter">(</span><span>auto</span><span> </span><span>intro</span><span class="delimiter">:</span><span> </span><span>F_rel_comp_leq_</span><span class="delimiter">[</span><span>of</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;(=)&quot;</span></span></span><span> </span><span>_</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;(=)&quot;</span></span></span><span class="delimiter">,</span><span> </span><span>simplified</span><span class="delimiter">,</span><span> </span><span>THEN</span><span> </span><span>predicate2D</span><span class="delimiter">]</span><span class="delimiter">)</span><span>
-</span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(*
-lemma F&#39;_rel_map_set_bij: 
-  fixes u :: &quot;&#39;a1::var_F &#8658; &#39;a1&quot; and R3 :: &quot;&#39;a3 &#8658; &#39;a3&#39; &#8658; bool&quot;
-  assumes u: &quot;bij u&quot; &quot;|supp u| &lt;o bound(any::&#39;a1)&quot;  
-  assumes &quot;bij (u2::&#39;a2&#8658;&#39;a2)&quot; and nx: &quot;nonrep2 x&quot; and ny: &quot;nonrep2 y&quot;
-  shows 
-    &quot;rel_F u (Grp u2) R3 x y &#10231;
- (&#8707;z. nonrep2 z &#8743;
-      set3_F z &#8838; {(x, y). R3 x y} &#8743; map_F id id fst z = x &#8743; map_F u u2 snd z = y)&quot;
-    (is &quot;?A &#10231; ?B&quot;)
-proof 
-  assume ?A
-  then obtain z :: &quot;(&#39;a1, &#39;a2 &#215; &#39;a2, &#39;a3 &#215; &#39;a3&#39;) F&quot; 
-    where 2: &quot;set2_F z &#8838; {(x, y). Grp u2 x y}&quot;
-      and 3: &quot;set3_F z &#8838; {(x, y). R3 x y}&quot;
-      and x: &quot;x = map_F id fst fst z&quot; and y: &quot;y = map_F u snd snd z&quot; 
-    unfolding F_rel_map_set[OF u] by auto
-  show ?B apply(rule exI[of _ &quot;map_F id fst id z&quot;], safe)
-    subgoal using nx by (simp add: x nonrep2_map_F_rev[OF id] F_map_comp[OF id id, symmetric])
-    subgoal using 3 unfolding F_set_map[OF id] by auto
-    subgoal using x by (simp add: F_map_comp[OF id id, symmetric])
-    subgoal unfolding y using 2 by (auto simp add: F_map_comp[OF id u, symmetric] Grp_def intro!: F_map_cong[OF u u])
-    done
-next 
-  assume ?B
-  then obtain z where z: &quot;nonrep2 z&quot; and 3: &quot;set3_F z &#8838; {(x, y). R3 x y}&quot;
-    and x: &quot;map_F id id fst z = x&quot; and y: &quot;map_F u u2 snd z = y&quot; by auto
-  show ?A unfolding F_rel_map_set[OF u]
-    apply(rule exI[of _ &quot;map_F id (&#955;x. (x, u2 x)) id z&quot;], safe)
-    subgoal by (simp add: F_set2_map[OF id] Grp_def image_def)
-    subgoal using 3 by (auto simp: F_set3_map[OF id] Grp_def image_def)
-    subgoal by(simp add: F_map_comp[OF id id, symmetric] o_def x id_def[symmetric])
-    subgoal by(simp add: F_map_comp[OF id u, symmetric] o_def y)
-    done
-qed
-
-lemma F&#39;_rel_map_set2:
-  fixes u :: &quot;&#39;a1::var_F &#8658; &#39;a1&quot; 
-  assumes u: &quot;bij u&quot; &quot;|supp u| &lt;o bound(any::&#39;a1)&quot;  
-  assumes &quot;bij (u2::&#39;a2&#8658;&#39;a2)&quot;  
-  shows 
-    &quot;rel_F&#39; u u2 R3 x y &#10231;  
- (&#8707;z. set3_F&#39; z &#8838; {(x, y). R3 x y} &#8743; 
-      map_F&#39; id id fst z = x &#8743; map_F&#39; u u2 snd z = y)&quot; 
-  using assms by (transfer) (simp add: u F&#39;_rel_map_set_bij)
-*)</span></span></span></span></span><span>
 </span><span>
 </span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>rrel_F_bij</span><span class="delimiter">:</span><span>
 </span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>x</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;(&#39;a :: var_TT,&#39;b :: var_TT,&#39;c,&#39;d) F&quot;</span></span></span><span>

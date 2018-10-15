@@ -24,8 +24,13 @@
 </span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The parameters of the development *)</span></span></span></span></span><span>
 </span><span>
 </span><span>
-</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* ASSUMED PROPERTIES OF F: 
-BNF in third and fourth position, small-support-endo-BNF in the first, binder-BNF in the second.
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* We fix an MRBNF F which is: 
+  ** map-constrained to small-support endofunctions in the 1st position, 
+  ** map-constrained to small-support endobijections in the 2nd position,  
+  ** unconstrained in the 3rd and 4th position. 
+
+The (co)datatype fixpoint constructions and the nonrepetitiveness restriction 
+will be applied to this MRBNF. 
 *)</span></span></span></span></span><span>
 </span><span>  
 </span><span class="keyword1"><span class="command">typedecl</span></span><span> </span><span class="delimiter">(</span><span class="tfree">&#39;a</span><span class="delimiter">,</span><span class="tfree">&#39;b</span><span class="delimiter">,</span><span class="tfree">&#39;c</span><span class="delimiter">,</span><span class="tfree">&#39;d</span><span class="delimiter">)</span><span> </span><span>F</span><span>
