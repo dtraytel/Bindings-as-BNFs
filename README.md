@@ -4,8 +4,7 @@ and (co)recursors related to the paper
 > **Bindings as Bounded Natural Functors**<br/>
 > Jasmin Christian Blanchette, Lorenzo Gheri, Andrei Popescu, Dmitriy Traytel
 
-The formal development can be browsed as a [generated HTML page]
-(https://htmlpreview.github.io/?https://github.com/dtraytel/Bindings-as-BNFs/blob/master/html/index.html) (see also the html directory). A better way to study the theory files, however, is to open
+The formal development can be browsed as a [generated HTML page](https://htmlpreview.github.io/?https://github.com/dtraytel/Bindings-as-BNFs/blob/master/html/index.html) (see also the html directory). A better way to study the theory files, however, is to open
 them in Isabelle/jEdit.
 
 The raw Isabelle sources are included in a separate directory called thys.
@@ -31,11 +30,11 @@ The formalization is organized in the following theory files:
 1. ```Prelim.thy``` and ```Card_Prelim.thy```:
   Background libraries for various auxiliary notions and theorems.
 
-2. ```Template.thy```: An axiomatic implementation of polymorphic locales. We
-have developed this axiomatic experimental command to avoid copy-pasting the
-polymorphic axiomatizations and the derived proofs. Templates can be thought of
-as polymorphic locales (Isabelle's monomorphic modules) that can also abstract
-over type constructors. The templates are used for the (co)recursors and their
+2. ```Template.thy```: An axiomatic implementation of polymorphic locales
+(which are Isabelle's monomorphic modules). We have developed this axiomatic
+experimental command to avoid copy-pasting the polymorphic axiomatizations and
+the derived proofs. (See a detailed explanation and example below.)
+In our setting, the templates are used for the (co)recursors and their
 instantiation to obtain the substitution operators.
 
 3. ```Common_Data_Codata_Bindings.thy```: The axiomatization of a sufficiently
@@ -121,5 +120,47 @@ paper. Notable points are:
 ```DDTOR```&mdash;```Udtor```<br/>
 ```mmapD```&mdash;```Umap```<br/>
 ```FFVarsD```&mdash;```UFVars```<br/>
+
+### Templates
+
+  A template fixes a type constructor and some polymorphic constants and
+assumes some polymorphic theorems about them. Under these assumptions the user
+can then prove further theorems. For example here is the template for functors
+and we prove the injectivity of the functorial action.
+
+        template Functor =
+          'a F
+          fixes map_F :: "('a ⇒ 'b) ⇒ 'a F ⇒ 'b F"
+          assumes map_F_id: "map_F id = id"
+          and map_F_comp: "⋀f g x. map_F (f o g) x = map_F f (map_F g x)"
+        begin
+
+        lemma inj_map_F: "inj f ⟹ inj (map_F f)"
+          by (rule injI, drule arg_cong[of _ _ "map_F (inv f)"])
+            (auto simp: map_F_comp[symmetric] map_F_id)
+
+        end
+
+  A template instantiations maps the fixed type constructors and constants to
+  concrete type constructors/values, lets the user prove the assumptions, and
+  after that axiomatized all the theorems proved in the context of a template,
+  but with the fixed type constructors and constants being replaced by the
+  concrete type constructors/values. For example,
+
+        template_instance list : Functor
+          where 'a Functor.F = "'a list"
+          for Functor.map_F = map
+          by auto
+
+  will axiomatize the theorem ```inj_map_F: "inj f ⟹ inj (map f)"```.
+
+  Templates lack many conveniences of locales (e.g., extensibility), however,
+  their support for polymorphism is a potentially useful contribution to HOL
+  beyond the scope of this paper (which nevertheless was the primary motivation
+  for developing this feature). For templates to be adopted by the HOL
+  community, requires proving them being consistency-preserving. We conjecture
+  that this is the case, assuming that the assumptions of a template are not
+  inconsitentent by themselves and are currently working out the details of
+  this metatheoretic argument.<br/>
 
 
