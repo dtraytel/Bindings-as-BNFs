@@ -155,12 +155,13 @@ and we prove the injectivity of the functorial action.
   will axiomatize the theorem ```inj_map_F: "inj f ⟹ inj (map f)"```.
 
   Templates lack many conveniences of locales (e.g., extensibility), however,
-  their support for polymorphism is a potentially useful contribution to HOL
-  beyond the scope of this paper (which nevertheless was the primary motivation
-  for developing this feature). For templates to be adopted by the HOL
-  community, requires proving them being consistency-preserving. We conjecture
-  that this is the case, assuming that the assumptions of a template are not
-  inconsitentent by themselves and are currently working out the details of
-  this metatheoretic argument.<br/>
+  their support for polymorphism is a likely useful contribution to
+  Isabelle/HOL beyond the scope of this paper (even though the formalization
+  accompanying this paper was the primary motivation for developing this
+  feature). For templates to be adopted by the Isabelle community requires
+  proving them being consistency-preserving. We conjecture that this is the
+  case, assuming that the assumptions of a template are not inconsitentent by
+  themselves and are currently working out the details of this metatheoretic
+  argument.
 
 
