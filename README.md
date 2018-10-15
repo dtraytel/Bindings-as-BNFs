@@ -158,10 +158,9 @@ and we prove the injectivity of the functorial action.
   their support for polymorphism is a likely useful contribution to
   Isabelle/HOL beyond the scope of this paper (even though the formalization
   accompanying this paper was the primary motivation for developing this
-  feature). For templates to be adopted by the Isabelle community requires
-  proving them being consistency-preserving. We conjecture that this is the
-  case, assuming that the assumptions of a template are not inconsitentent by
-  themselves and are currently working out the details of this metatheoretic
-  argument.
+  feature).
+
+  The use of templates is not necessary for our development, but it saves us a
+  lot of copy-pasting and search&replace in this pre-implementation stage.
 
 
