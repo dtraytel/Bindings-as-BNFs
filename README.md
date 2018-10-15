@@ -1,7 +1,7 @@
 This repository contains Isabelle formalization of binding-aware (co)datatypes
 and (co)recursors related to the paper
 
-> **Bindings as Bounded Natural Functors**
+> **Bindings as Bounded Natural Functors**<br/>
 > Jasmin Christian Blanchette, Lorenzo Gheri, Andrei Popescu, Dmitriy Traytel
 
 The formal development can be browsed as a generated HTML page
@@ -123,14 +123,14 @@ paper. Notable points are:
   corresponding unary versions of substitution (replacing a single variable by
   another or by another term)
 
-* terminology mapping for (co)recursion (formalization&mdash;paper):
-```CCTOR```&mdash;```Uctor```
-```mmapC```&mdash;```Umap```
-```FFVarsC```&mdash;```UFVars```
-```mapP```&mdash;```Pmap```
-```FVarsP```&mdash;```PFVars```
-```DDTOR```&mdash;```Udtor```
-```mmapD```&mdash;```Umap```
-```FFVarsD```&mdash;```UFVars```
+* terminology mapping for (co)recursion (formalization&mdash;paper):<br/>
+```CCTOR```&mdash;```Uctor```<br/>
+```mmapC```&mdash;```Umap```<br/>
+```FFVarsC```&mdash;```UFVars```<br/>
+```mapP```&mdash;```Pmap```<br/>
+```FVarsP```&mdash;```PFVars```<br/>
+```DDTOR```&mdash;```Udtor```<br/>
+```mmapD```&mdash;```Umap```<br/>
+```FFVarsD```&mdash;```UFVars```<br/>
 
 
