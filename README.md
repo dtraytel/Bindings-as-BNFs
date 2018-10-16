@@ -4,9 +4,10 @@ and (co)recursors related to the paper
 > **Bindings as Bounded Natural Functors**<br/>
 > Jasmin Christian Blanchette, Lorenzo Gheri, Andrei Popescu, Dmitriy Traytel
 
-The repository also contains an extension of the paper with several technical
-appendices (```paper_with_appendices.pdf```), which are referenced in the
-formalization.
+The repository also contains an appendix to the paper (```appendix.pdf```),
+which was included in the supplementary material of the original submission.
+Here, we restricted this appendix to the part, which is directly relevant for
+(and referenced in) the formalization artifact.
 
 The formal development can be browsed as a [generated HTML page](https://htmlpreview.github.io/?https://github.com/dtraytel/Bindings-as-BNFs/blob/master/html/index.html) (see also the html directory). A better way to study the theory files, however, is to open
 them in Isabelle/jEdit.
@@ -81,14 +82,14 @@ Additional helpful lemmas following from ```TT```'s construction.
 7. ```Datatype_Recursion_Template.thy``` and
 ```Codatatype_Corecursion_Template.thy```: The constructions of the
 binding-aware recursor (Section 7.1) and corecursor (Section 7.2), both
-implemented as templates. Our formalization supports full-fledged (co)recursion,
-and not just (co)iteration. The latter is preferred in the paper because it is
-more lightweight. The templates' assumptions correspond to the definitions of
-term-like-structures (various ```termLikeStr``` assumptions and predicates
-reflecting Definitions 17 and 18) and (co)models (Definitions 19 and 22). The
-(co)recursors characteristic properties are the theorems ```ff0_cctor```,
-```ff0_DDTOR```, ```ff0_mmapD```, and ```ff0_FFVarsD``` (properties C, D, M, V
-from Section 7).
+implemented as templates. Our formalization supports full-fledged
+(co)recursion, and not just (co)iteration (see ```appendix.pdf``` for details).
+The latter is preferred in the paper because it is more lightweight. The
+templates' assumptions correspond to the definitions of term-like-structures
+(various ```termLikeStr``` assumptions and predicates reflecting Definitions 17
+and 18) and (co)models (Definitions 19 and 22). The (co)recursors
+characteristic properties are the theorems ```ff0_cctor```, ```ff0_DDTOR```,
+```ff0_mmapD```, and ```ff0_FFVarsD``` (properties C, D, M, V from Section 7).
 
 8. ```Datatype_VVsubst.thy``` and ```Codatatype_VVsubst.thy```: The
 instantiation of the (co)recursor to obtain a variable-for-variable
