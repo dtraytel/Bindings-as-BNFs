@@ -4,6 +4,10 @@ and (co)recursors related to the paper
 > **Bindings as Bounded Natural Functors**<br/>
 > Jasmin Christian Blanchette, Lorenzo Gheri, Andrei Popescu, Dmitriy Traytel
 
+The repository also contains an extension of the paper with several technical
+appendices (```paper_with_appendices.pdf```), which are referenced in the
+formalization.
+
 The formal development can be browsed as a [generated HTML page](https://htmlpreview.github.io/?https://github.com/dtraytel/Bindings-as-BNFs/blob/master/html/index.html) (see also the html directory). A better way to study the theory files, however, is to open
 them in Isabelle/jEdit.
 
