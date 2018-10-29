@@ -4,10 +4,10 @@ and (co)recursors related to the paper
 > **Bindings as Bounded Natural Functors**<br/>
 > Jasmin Christian Blanchette, Lorenzo Gheri, Andrei Popescu, Dmitriy Traytel
 
-The repository also contains an appendix to the paper (```appendix.pdf```),
-which was included in the supplementary material of the original submission.
-Here, we restricted this appendix to the part, which is directly relevant for
-(and referenced in) the formalization artifact.
+The repository also contains an extended version of the paper, which includes
+many appendices (```binding_extended.pdf```). We have also singled out the part
+of the appendix that is directly relevant for (and referenced in) the
+formalization artifact (```appendix.pdf```).
 
 The formal development can be browsed as a [generated HTML page](https://htmlpreview.github.io/?https://github.com/dtraytel/Bindings-as-BNFs/blob/master/html/index.html) (see also the html directory). A better way to study the theory files, however, is to open
 them in Isabelle/jEdit.
@@ -35,12 +35,12 @@ The formalization is organized in the following theory files:
 1. ```Prelim.thy``` and ```Card_Prelim.thy```:
   Background libraries for various auxiliary notions and theorems.
 
-2. ```Template.thy```: An axiomatic implementation of polymorphic locales
-(which are Isabelle's monomorphic modules). We have developed this axiomatic
-experimental command to avoid copy-pasting the polymorphic axiomatizations and
-the derived proofs. (See a detailed explanation and example below.)
-In our setting, the templates are used for the (co)recursors and their
-instantiation to obtain the substitution operators.
+2. ```Template.thy```: An axiomatic Standard ML implementation of polymorphic
+locales (which are Isabelle's monomorphic modules). We have developed this
+axiomatic experimental command (Section 8) to avoid copy-pasting the
+polymorphic axiomatizations and the derived proofs. (See a detailed explanation
+and example below.) In our setting, the templates are used for the
+(co)recursors and their instantiation to obtain the substitution operators.
 
 3. ```Common_Data_Codata_Bindings.thy```: The axiomatization of a sufficiently
 diverse abstract MRBNF ```('a, 'b, 'c, 'd) F``` (following Proposal 5) of fixed
