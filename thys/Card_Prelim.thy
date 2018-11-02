@@ -63,4 +63,59 @@ proof-
   using card_of_ordIso bij_betw_inv by blast
 qed
 
+(* Get the cardinal successor so that it is covers an 
+ entire type: *)
+typedef 'a csuc = "Field (cardSuc |UNIV::'a set| )" 
+  by (simp add: Field_cardSuc_not_empty ex_in_conv) 
+
+definition cardSuc2 :: "'a rel \<Rightarrow> ('a csuc) rel" where 
+"cardSuc2 r \<equiv> |UNIV|" 
+ 
+lemma card_order_cardSuc2: 
+assumes "card_order r"
+shows "card_order (cardSuc2 r)"
+  by (simp add: cardSuc2_def)
+
+lemma Card_order_cardSuc2:
+"card_order r \<Longrightarrow> Card_order (cardSuc2 r)"
+  by (simp add: cardSuc2_def)
+
+lemma cardSuc2_cardSuc:
+assumes "card_order r"
+shows "cardSuc2 r =o cardSuc r" 
+proof-
+  term bij_betw
+  have 0: "bij_betw Rep_csuc 
+         (UNIV::('a csuc) set) 
+         (Field (cardSuc |UNIV::'a set| ))"
+  unfolding bij_betw_def 
+  by (meson Rep_csuc_inject inj_on_def type_definition.Rep_range 
+     type_definition_csuc)
+  have "cardSuc2 r =o |Field (cardSuc |UNIV::'a set| )|" 
+  unfolding cardSuc2_def card_of_ordIso[symmetric] 
+  using 0 by auto 
+  also have "|Field (cardSuc |UNIV::'a set| )| =o 
+             cardSuc |UNIV::'a set|" 
+  by simp
+  also have "cardSuc |UNIV::'a set| =o cardSuc r"
+  using assms card_of_Field_ordIso card_order_on_Card_order by fastforce
+  finally show ?thesis .
+qed
+
+(* Borrowing theorems from cardSuc: *) 
+lemma Cinfinite_cardSuc2: 
+"cinfinite r \<Longrightarrow> card_order r \<Longrightarrow> cinfinite (cardSuc2 r)" 
+  by (metis Field_card_of Field_card_order cardSuc2_cardSuc cardSuc2_def cardSuc_finite card_of_ordIso_finite card_of_unique card_order_cardSuc2 
+  cinfinite_def ordIso_finite_Field)
+
+lemma infinite_cardSuc2_regularCard: 
+"infinite (Field r) \<Longrightarrow> card_order r \<Longrightarrow> regularCard (cardSuc2 r)"
+apply(rule regularCard_ordIso[of "cardSuc r"]) 
+  apply (simp add: Field_card_order)  
+  apply (simp add: Field_card_order cinfinite_def)
+  apply (simp add: cardSuc2_def)  
+  using Cinfinite_cardSuc2 cinfinite_def apply auto[1]
+  using cardSuc2_cardSuc ordIso_symmetric apply auto[1]
+  by (simp add: Field_card_order infinite_cardSuc_regularCard)
+
 end

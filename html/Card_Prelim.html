@@ -80,6 +80,61 @@
 </span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>card_of_ordIso</span><span> </span><span>bij_betw_inv</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>blast</span><span>
 </span><span class="keyword1"><span class="command">qed</span></span><span>
 </span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Get the cardinal successor so that it is covers an 
+ entire type: *)</span></span></span></span></span><span>
+</span><span class="keyword1"><span class="command">typedef</span></span><span> </span><span class="tfree">&#39;a</span><span> </span><span>csuc</span><span> </span><span class="delimiter">=</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;Field (cardSuc |UNIV::&#39;a set| )&quot;</span></span></span><span> 
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>simp</span><span> </span><span>add</span><span class="delimiter">:</span><span> </span><span>Field_cardSuc_not_empty</span><span> </span><span>ex_in_conv</span><span class="delimiter">)</span><span> 
+</span><span>
+</span><span class="keyword1"><span class="command">definition</span></span><span> </span><span>cardSuc2</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a rel &#8658; (&#39;a csuc) rel&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">where</span></span><span> 
+</span><span class="string"><span class="delete"><span class="delete">&quot;cardSuc2 r &#8801; |UNIV|&quot;</span></span></span><span> 
+</span><span> 
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>card_order_cardSuc2</span><span class="delimiter">:</span><span> 
+</span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;card_order r&quot;</span></span></span><span>
+</span><span class="keyword2"><span class="keyword">shows</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;card_order (cardSuc2 r)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>simp</span><span> </span><span>add</span><span class="delimiter">:</span><span> </span><span>cardSuc2_def</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>Card_order_cardSuc2</span><span class="delimiter">:</span><span>
+</span><span class="string"><span class="delete"><span class="delete">&quot;card_order r &#10233; Card_order (cardSuc2 r)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>simp</span><span> </span><span>add</span><span class="delimiter">:</span><span> </span><span>cardSuc2_def</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>cardSuc2_cardSuc</span><span class="delimiter">:</span><span>
+</span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;card_order r&quot;</span></span></span><span>
+</span><span class="keyword2"><span class="keyword">shows</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;cardSuc2 r =o cardSuc r&quot;</span></span></span><span> 
+</span><span class="keyword1"><span class="command">proof</span></span><span>-</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">term</span></span><span> </span><span>bij_betw</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">have</span></span><span> </span><span>0</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;bij_betw Rep_csuc 
+         (UNIV::(&#39;a csuc) set) 
+         (Field (cardSuc |UNIV::&#39;a set| ))&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>bij_betw_def</span><span> 
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>meson</span><span> </span><span>Rep_csuc_inject</span><span> </span><span>inj_on_def</span><span> </span><span>type_definition.Rep_range</span><span> 
+</span><span>     </span><span>type_definition_csuc</span><span class="delimiter">)</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">have</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;cardSuc2 r =o |Field (cardSuc |UNIV::&#39;a set| )|&quot;</span></span></span><span> 
+</span><span>  </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>cardSuc2_def</span><span> </span><span>card_of_ordIso</span><span class="delimiter">[</span><span>symmetric</span><span class="delimiter">]</span><span> 
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>0</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span> 
+</span><span>  </span><span class="keyword1"><span class="command">also</span></span><span> </span><span class="keyword1"><span class="command">have</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|Field (cardSuc |UNIV::&#39;a set| )| =o 
+             cardSuc |UNIV::&#39;a set|&quot;</span></span></span><span> 
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>simp</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">also</span></span><span> </span><span class="keyword1"><span class="command">have</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;cardSuc |UNIV::&#39;a set| =o cardSuc r&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>assms</span><span> </span><span>card_of_Field_ordIso</span><span> </span><span>card_order_on_Card_order</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>fastforce</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">finally</span></span><span> </span><span class="keyword3"><span class="command">show</span></span><span> </span><span class="var">?thesis</span><span> </span><span class="keyword1"><span class="command">.</span></span><span>
+</span><span class="keyword1"><span class="command">qed</span></span><span>
+</span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Borrowing theorems from cardSuc: *)</span></span></span></span></span><span> 
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>Cinfinite_cardSuc2</span><span class="delimiter">:</span><span> 
+</span><span class="string"><span class="delete"><span class="delete">&quot;cinfinite r &#10233; card_order r &#10233; cinfinite (cardSuc2 r)&quot;</span></span></span><span> 
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>metis</span><span> </span><span>Field_card_of</span><span> </span><span>Field_card_order</span><span> </span><span>cardSuc2_cardSuc</span><span> </span><span>cardSuc2_def</span><span> </span><span>cardSuc_finite</span><span> </span><span>card_of_ordIso_finite</span><span> </span><span>card_of_unique</span><span> </span><span>card_order_cardSuc2</span><span> 
+</span><span>  </span><span>cinfinite_def</span><span> </span><span>ordIso_finite_Field</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>infinite_cardSuc2_regularCard</span><span class="delimiter">:</span><span> 
+</span><span class="string"><span class="delete"><span class="delete">&quot;infinite (Field r) &#10233; card_order r &#10233; regularCard (cardSuc2 r)&quot;</span></span></span><span>
+</span><span class="keyword1"><span class="command"><span class="improper"><span class="command">apply</span></span></span></span><span class="delimiter">(</span><span>rule</span><span> </span><span>regularCard_ordIso</span><span class="delimiter">[</span><span>of</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;cardSuc r&quot;</span></span></span><span class="delimiter">]</span><span class="delimiter">)</span><span> 
+</span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">apply</span></span></span></span><span> </span><span class="delimiter">(</span><span>simp</span><span> </span><span>add</span><span class="delimiter">:</span><span> </span><span>Field_card_order</span><span class="delimiter">)</span><span>  
+</span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">apply</span></span></span></span><span> </span><span class="delimiter">(</span><span>simp</span><span> </span><span>add</span><span class="delimiter">:</span><span> </span><span>Field_card_order</span><span> </span><span>cinfinite_def</span><span class="delimiter">)</span><span>
+</span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">apply</span></span></span></span><span> </span><span class="delimiter">(</span><span>simp</span><span> </span><span>add</span><span class="delimiter">:</span><span> </span><span>cardSuc2_def</span><span class="delimiter">)</span><span>  
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>Cinfinite_cardSuc2</span><span> </span><span>cinfinite_def</span><span> </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">apply</span></span></span></span><span> </span><span>auto</span><span class="delimiter">[</span><span>1</span><span class="delimiter">]</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>cardSuc2_cardSuc</span><span> </span><span>ordIso_symmetric</span><span> </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">apply</span></span></span></span><span> </span><span>auto</span><span class="delimiter">[</span><span>1</span><span class="delimiter">]</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>simp</span><span> </span><span>add</span><span class="delimiter">:</span><span> </span><span>Field_card_order</span><span> </span><span>infinite_cardSuc_regularCard</span><span class="delimiter">)</span><span>
+</span><span>
 </span><span class="keyword2"><span class="keyword">end</span></span></pre>
 
 </div>

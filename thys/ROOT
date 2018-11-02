@@ -9,20 +9,17 @@ session Bindings = "HOL-Cardinals" +
   theories [document = false]
     Card_Prelim
     Prelim
-    Template
 
   theories
     Common_Data_Codata_Bindings
 
     Datatype_Bindings
     More_Datatype_Bindings
-    Datatype_Recursion_Template
     Datatype_VVsubst
     Datatype_TVsubst
 
     Codatatype_Bindings
     More_Codatatype_Bindings
-    Codatatype_Corecursion_Template
     Codatatype_VVsubst
     Codatatype_TVsubst
 
