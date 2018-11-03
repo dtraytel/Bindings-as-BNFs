@@ -30,7 +30,8 @@ processed. With Isabelle up and running it should take only 2 minutes.
 
 ### Organization
 
-The formalization is organized in the following theory files:
+The formalization of the abstract theory is organized in the following theory
+files:
 
 1. ```Prelim.thy``` and ```Card_Prelim.thy```:
   Background libraries for various auxiliary notions and theorems.
@@ -125,6 +126,17 @@ paper. Notable points are:
 ```DDTOR```&mdash;```Udtor```<br/>
 ```mmapD```&mdash;```Umap```<br/>
 ```FFVarsD```&mdash;```UFVars```<br/>
+
+
+We have also included the instantiation of our abstract development to two
+concrete syntaxes: untyped lambda-calculus and the POPLmark types (of System F
+with record types)&mdash;under directories ```thys/Lambda_Examples``` and
+```thys/POPLmark1B_Example```. The examples consist of a copy of the abstract
+proofs (but for the concrete functor defining the given syntax rather than an
+unspecified functor) followed by a customization step, where the theorems are
+rewritten in a user-friendly fashion, to account for the concrete constructors
+specific to the given syntax. In ```POPLmark1B_Example``` we have included a
+case study: a solution of part 1B of the challenge.
 
 ### Templates
 
