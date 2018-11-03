@@ -1,0 +1,24 @@
+chapter Bindings
+
+session POPLmark1B = "HOL-Cardinals" +
+  options [document = false]
+
+  sessions
+    "HOL-Cardinals"
+    "HOL-Library"
+
+  theories [document = false]
+    "../Card_Prelim"
+    "../Prelim"
+    "../Template"
+
+  theories
+    Labeled_FSet
+    Common_Data_Codata_Bindings
+    Datatype_Bindings
+    More_Datatype_Bindings
+    Datatype_Recursion_Template
+    Datatype_VVsubst
+    Datatype_TVsubst
+    Custom_POPLmark1B
+    POPLmark1B

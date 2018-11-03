@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Theory Custom_Lambda (Isabelle2018: August 2018)</title>
+<link media="all" rel="stylesheet" type="text/css" href="isabelle.css"/>
+</head>
+
+<body>
+<div class="head"><h1>Theory Custom_Lambda</h1>
+
+<span class="command">theory</span> <span class="name">Custom_Lambda</span><br/>
+<span class="keyword">imports</span> <a href="Datatype_TVsubst.html"><span class="name">Datatype_TVsubst</span></a><br/>
+
+</div>
+<div class="source">
+<pre class="source"><span class="keyword1"><span class="command">theory</span></span><span> </span><span>Custom_Lambda</span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">imports</span></span><span> </span><span>Datatype_TVsubst</span><span>
+</span><span class="keyword2"><span class="keyword">begin</span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>vvsubst_arg_cong</span><span class="delimiter">:</span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>x</span><span> </span><span>y</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a :: var_TT TT&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span>f</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|supp f| &lt;o bound(any::&#39;a)&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>g</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|supp g| &lt;o bound(any::&#39;a)&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;x = y&quot;</span></span></span><span>
+</span><span>     </span><span class="string"><span class="delete"><span class="delete">&quot;(&#8896;z. z &#8712; FFVars x &#10233; f z = g z)&quot;</span></span></span><span>
+</span><span>   </span><span class="keyword2"><span class="keyword">shows</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;vvsubst f x = vvsubst g y&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>assms</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>intro</span><span class="delimiter">!</span><span class="delimiter">:</span><span> </span><span>vvsubst_cong</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>tvsubst_arg_cong</span><span class="delimiter">:</span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>x</span><span> </span><span>y</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a :: var_TT TT&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span>f</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|SSupp f| &lt;o bound(any::&#39;a)&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>g</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|SSupp g| &lt;o bound(any::&#39;a)&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;x = y&quot;</span></span></span><span>
+</span><span>     </span><span class="string"><span class="delete"><span class="delete">&quot;(&#8896;z. z &#8712; FFVars x &#10233; f z = g z)&quot;</span></span></span><span>
+</span><span>   </span><span class="keyword2"><span class="keyword">shows</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;tvsubst f x = tvsubst g y&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>assms</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>intro</span><span class="delimiter">!</span><span class="delimiter">:</span><span> </span><span>tvsubst_cong</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">definition</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;Var a &#8801; cctor (C1 a)&quot;</span></span></span><span>
+</span><span class="keyword1"><span class="command">definition</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;Lam a t &#8801; cctor (C2 a t)&quot;</span></span></span><span>
+</span><span class="keyword1"><span class="command">definition</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;App t1 t2 &#8801; cctor (C3 t1 t2)&quot;</span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemmas</span></span><span> </span><span>TT_ctr_defs</span><span> </span><span class="delimiter">=</span><span> </span><span>Var_def</span><span> </span><span>Lam_def</span><span> </span><span>App_def</span><span>
+</span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Basic properties of the constructors: *)</span></span></span></span></span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>TT_FFVars_simps</span><span class="delimiter">[</span><span>simp</span><span class="delimiter">]</span><span class="delimiter">:</span><span>
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;FFVars (Var a) = {a}&quot;</span></span></span><span>
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;FFVars (App t1 t2) = (FFVars t1 &#8746; FFVars t2)&quot;</span></span></span><span>
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;FFVars (Lam a t) = (FFVars t - {a})&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>TT_ctr_defs</span><span> </span><span>FFVars_simps</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>user_TT_distinct</span><span class="delimiter">[</span><span>simp</span><span class="delimiter">,</span><span> </span><span>induct_simp</span><span class="delimiter">]</span><span class="delimiter">:</span><span>
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;Var a &#8800; App s t&quot;</span></span></span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;App s t &#8800; Var a&quot;</span></span></span><span>
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;Var a &#8800; Lam b t&quot;</span></span></span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;Lam b t &#8800; Var a&quot;</span></span></span><span>
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;App t1 t2 &#8800; Lam a t&quot;</span></span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;Lam a t &#8800; App t1 t2&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>TT_ctr_defs</span><span> </span><span>TT_inject</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>user_TT_inject</span><span class="delimiter">[</span><span>simp</span><span class="delimiter">,</span><span> </span><span>induct_simp</span><span class="delimiter">]</span><span class="delimiter">:</span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>t1</span><span> </span><span>t2</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a::var_TT TT&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">shows</span></span><span>
+</span><span>    </span><span class="string"><span class="delete"><span class="delete">&quot;Var a = Var a&#39; = (a = a&#39;)&quot;</span></span></span><span>
+</span><span>    </span><span class="string"><span class="delete"><span class="delete">&quot;App t1 t2 = App t1&#39; t2&#39; = (t1 = t1&#39; &#8743; t2 = t2&#39;)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>TT_ctr_defs</span><span> </span><span>TT_inject</span><span> </span><span>supp_id_bound</span><span>
+</span><span>    </span><span>id_on_def</span><span> </span><span>intro</span><span class="delimiter">!</span><span class="delimiter">:</span><span> </span><span>exI</span><span class="delimiter">[</span><span>of</span><span> </span><span>_</span><span> </span><span>id</span><span class="delimiter">]</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>Lam_same_injectE</span><span class="delimiter">[</span><span>elim_format</span><span class="delimiter">]</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;Lam a t = Lam a t&#39; &#10233; t = t&#39;&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">apply</span></span></span></span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>TT_ctr_defs</span><span> </span><span>TT_inject</span><span> </span><span>supp_id_bound</span><span>
+</span><span>    </span><span>id_on_def</span><span> </span><span>intro</span><span class="delimiter">!</span><span class="delimiter">:</span><span> </span><span>trans</span><span class="delimiter">[</span><span>OF</span><span> </span><span>vvsubst_cong</span><span> </span><span>vvsubst_id</span><span class="delimiter">,</span><span> </span><span>symmetric</span><span class="delimiter">]</span><span class="delimiter">)</span><span>
+</span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">done</span></span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>Lam_injectI</span><span class="delimiter">:</span><span>
+</span><span class="string"><span class="delete"><span class="delete">&quot;vusubst a a&#39; t = t&#39; &#10233; a&#39; &#8713; FFVars t &#10233;
+  Lam a t = Lam a&#39; t&#39;&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">apply</span></span></span></span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>TT_ctr_defs</span><span> </span><span>TT_inject</span><span> </span><span>vusubst_def</span><span>
+</span><span>    </span><span>supp_swap_bound</span><span> </span><span>bij_swap</span><span> </span><span>supp_id_upd</span><span> </span><span>id_on_def</span><span>
+</span><span>      </span><span>intro</span><span class="delimiter">!</span><span class="delimiter">:</span><span> </span><span>exI</span><span class="delimiter">[</span><span>of</span><span> </span><span>_</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;id(a:=a&#39;,a&#39;:=a)&quot;</span></span></span><span class="delimiter">]</span><span> </span><span>vvsubst_cong</span><span class="delimiter">)</span><span>
+</span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">done</span></span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>Lam_diff_injectE</span><span class="delimiter">[</span><span>elim_format</span><span class="delimiter">]</span><span class="delimiter">:</span><span>
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;Lam a t = Lam a&#39; t&#39; &#10233; a &#8800; a&#39; &#10233;
+  (vusubst a a&#39; t = t&#39; &#8743; a &#8713; FFVars t&#39; &#8743; a&#39; &#8713; FFVars t)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">apply</span></span></span></span><span> </span><span class="delimiter">(</span><span>fastforce</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>TT_ctr_defs</span><span> </span><span>TT_inject</span><span> </span><span>vusubst_def</span><span>
+</span><span>     </span><span>FFVars_vvsubst</span><span>
+</span><span>    </span><span>supp_id_upd</span><span> </span><span>id_on_def</span><span> </span><span>intro</span><span class="delimiter">!</span><span class="delimiter">:</span><span> </span><span>exI</span><span class="delimiter">[</span><span>of</span><span> </span><span>_</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;id(a:=a&#39;,a&#39;:=a)&quot;</span></span></span><span class="delimiter">]</span><span>
+</span><span>      </span><span>vvsubst_cong</span><span class="delimiter">)</span><span>
+</span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">done</span></span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>Lam_inject</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;Lam a t = Lam a&#39; t&#39; =
+  (if a = a&#39; then t = t&#39; else
+    a &#8713; FFVars t&#39; &#8743; a&#39; &#8713; FFVars t &#8743; vusubst a a&#39; t = t&#39;)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">apply</span></span></span></span><span> </span><span class="delimiter">(</span><span>rule</span><span> </span><span>iffI</span><span class="delimiter">)</span><span>
+</span><span>   </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">apply</span></span></span></span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>FFVars_vusubst</span><span> </span><span>elim</span><span class="delimiter">!</span><span class="delimiter">:</span><span> </span><span>Lam_same_injectE</span><span>
+</span><span>     </span><span>elim</span><span class="delimiter">:</span><span> </span><span>Lam_diff_injectE</span><span> </span><span>intro</span><span class="delimiter">:</span><span> </span><span>Lam_injectI</span><span> </span><span>split</span><span class="delimiter">:</span><span> </span><span>if_splits</span><span class="delimiter">)</span><span>
+</span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">done</span></span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span class="delimiter">[</span><span>simp</span><span class="delimiter">,</span><span>intro</span><span class="delimiter">!</span><span class="delimiter">]</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;nnoclash x&quot;</span></span></span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>cases</span><span> </span><span>x</span><span class="delimiter">)</span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>nnoclash_def</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Simplification rules for variable-for-variables substitution: *)</span></span></span></span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The parallel version: *)</span></span></span></span></span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* ... for arbitrary substitution functions, commutes with Lam
+  only if the binding variable is avoided:  *)</span></span></span></span></span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>TT_vvsubst_simps</span><span class="delimiter">[</span><span>simp</span><span class="delimiter">]</span><span class="delimiter">:</span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>f</span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a &#8658; &#39;a::var_TT&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|supp f| &lt;o bound(any::&#39;a::var_TT)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">shows</span></span><span>
+</span><span>    </span><span class="string"><span class="delete"><span class="delete">&quot;vvsubst f (Var a) = Var (f a)&quot;</span></span></span><span>
+</span><span>    </span><span class="string"><span class="delete"><span class="delete">&quot;vvsubst f (App t1 t2) = App (vvsubst f t1) (vvsubst f t2)&quot;</span></span></span><span>
+</span><span>    </span><span class="string"><span class="delete"><span class="delete">&quot;a &#8713; imsupp f &#10233; vvsubst f (Lam a t) = Lam a (vvsubst f t)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>TT_ctr_defs</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>subst</span><span> </span><span>vvsubst_cctor</span><span class="delimiter">[</span><span>OF</span><span> </span><span>assms</span><span class="delimiter">]</span><span class="delimiter">;</span><span> </span><span>auto</span><span class="delimiter">)</span><span class="delimiter">+</span><span>
+</span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* ... for bijective substitution functions, commutation with Lam
+ holds unconditionally (and affects the binding variables too):  *)</span></span></span></span></span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>bij_TT_vvsubst_simps</span><span class="delimiter">[</span><span>simp</span><span class="delimiter">]</span><span class="delimiter">:</span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>f</span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a &#8658; &#39;a::var_TT&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;bij f&quot;</span></span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|supp f| &lt;o bound(any::&#39;a::var_TT)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">shows</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;vvsubst f (Lam a t) = Lam (f a) (vvsubst f t)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>assms</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>TT_ctr_defs</span><span>  </span><span>map_TT_cctor</span><span> </span><span>vvsubst_map_TT</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The unary version: *)</span></span></span></span></span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>TT_vusubst_simps</span><span class="delimiter">[</span><span>simp</span><span class="delimiter">]</span><span class="delimiter">:</span><span>
+</span><span>    </span><span class="string"><span class="delete"><span class="delete">&quot;vusubst a a&#39; (Var b) = Var (if a = b then a&#39; else b)&quot;</span></span></span><span>
+</span><span>    </span><span class="string"><span class="delete"><span class="delete">&quot;vusubst a a&#39; (App t1 t2) = App (vusubst a a&#39; t1) (vusubst a a&#39; t2)&quot;</span></span></span><span>
+</span><span>    </span><span class="string"><span class="delete"><span class="delete">&quot;b &#8800; a &#10233; b &#8800; a&#39; &#10233;
+      vusubst a a&#39; (Lam b t) = Lam b (vusubst a a&#39; t)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>TT_ctr_defs</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>subst</span><span> </span><span>vusubst_cctor</span><span class="delimiter">;</span><span> </span><span>auto</span><span class="delimiter">)</span><span class="delimiter">+</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>VVr_Var</span><span class="delimiter">[</span><span>simp</span><span class="delimiter">]</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;VVr x = Var x&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>simp</span><span> </span><span>add</span><span class="delimiter">:</span><span> </span><span>Var_def</span><span> </span><span>VVr_def</span><span> </span><span>&#951;_def</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>TT_tvsubst_simps</span><span class="delimiter">[</span><span>simp</span><span class="delimiter">]</span><span class="delimiter">:</span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>f</span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a &#8658; &#39;a::var_TT TT&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|SSupp f| &lt;o bound(any::&#39;a::var_TT)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">shows</span></span><span>
+</span><span>    </span><span class="string"><span class="delete"><span class="delete">&quot;tvsubst f (Var a) = f a&quot;</span></span></span><span>
+</span><span>    </span><span class="string"><span class="delete"><span class="delete">&quot;tvsubst f (App t1 t2) = App (tvsubst f t1) (tvsubst f t2)&quot;</span></span></span><span>
+</span><span>    </span><span class="string"><span class="delete"><span class="delete">&quot;a &#8713; IImsupp f &#10233; tvsubst f (Lam a t) = Lam a (tvsubst f t)&quot;</span></span></span><span>
+</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>VVr_Var</span><span class="delimiter">[</span><span>symmetric</span><span class="delimiter">]</span><span> </span><span>tvsubst_VVr</span><span class="delimiter">[</span><span>OF</span><span> </span><span>assms</span><span class="delimiter">]</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>TT_ctr_defs</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>rule</span><span> </span><span>refl</span><span> </span><span class="delimiter">|</span><span> </span><span>subst</span><span> </span><span>tvsubst_cctor_not_isVVr</span><span class="delimiter">[</span><span>OF</span><span> </span><span>assms</span><span class="delimiter">]</span><span class="delimiter">;</span><span>
+</span><span>    </span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>isVVr_def</span><span> </span><span>TT_ctr_defs</span><span> </span><span>TT_inject</span><span class="delimiter">)</span><span class="delimiter">+</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>TT_tusubst_simps</span><span class="delimiter">[</span><span>simp</span><span class="delimiter">]</span><span class="delimiter">:</span><span>
+</span><span>    </span><span class="string"><span class="delete"><span class="delete">&quot;tusubst x z (Var y) = (if x = y then z else Var y)&quot;</span></span></span><span>
+</span><span>    </span><span class="string"><span class="delete"><span class="delete">&quot;tusubst x z (App t1 t2) = App (tusubst x z t1) (tusubst x z t2)&quot;</span></span></span><span>
+</span><span>    </span><span class="string"><span class="delete"><span class="delete">&quot;y &#8800; x &#10233; y &#8713; FFVars z &#10233; tusubst x z (Lam y t) =
+          Lam y (tusubst x z t)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>VVr_Var</span><span class="delimiter">[</span><span>symmetric</span><span class="delimiter">]</span><span> </span><span>tusubst_VVr</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>TT_ctr_defs</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>simp</span><span> </span><span class="delimiter">|</span><span> </span><span>subst</span><span> </span><span>tusubst_cctor_not_isVVr</span><span class="delimiter">;</span><span>
+</span><span>    </span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>isVVr_def</span><span> </span><span>TT_ctr_defs</span><span> </span><span>TT_inject</span><span class="delimiter">)</span><span class="delimiter">+</span><span>
+</span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Induction: *)</span></span></span></span></span><span>
+</span><span class="keyword1"><span class="command">theorem</span></span><span> </span><span>user_TT_fresh_induct</span><span class="delimiter">[</span><span>case_names</span><span> </span><span>Var</span><span> </span><span>Lam</span><span> </span><span>App</span><span class="delimiter">,</span><span> </span><span>consumes</span><span> </span><span>1</span><span class="delimiter">]</span><span class="delimiter">:</span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>T</span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a::var_TT TT&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>A</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a set&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span>bound</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|A| &lt;o bound(any::&#39;a::var_TT)&quot;</span></span></span><span>
+</span><span>      </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>var</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896;y. &#966; (Var y)&quot;</span></span></span><span>
+</span><span>      </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>app</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896;t1 t2. &#966; t1 &#10233; &#966; t2 &#10233; &#966; (App t1 t2)&quot;</span></span></span><span>
+</span><span>      </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>lam</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896;a t. &#966; t &#10233; (a &#8713; A &#10233; &#966; t) &#10233; &#966; (Lam a t)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">shows</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#966; t&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>bound</span><span> </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">apply</span></span></span></span><span> </span><span class="delimiter">(</span><span>induct</span><span> </span><span>t</span><span class="delimiter">)</span><span>
+</span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">subgoal</span></span></span></span><span> </span><span class="keyword2"><span class="keyword">for</span></span><span> </span><span>f</span><span>
+</span><span>    </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>cases</span><span> </span><span>f</span><span class="delimiter">)</span><span> </span><span class="delimiter">(</span><span>force</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>TT_ctr_defs</span><span class="delimiter">[</span><span>symmetric</span><span class="delimiter">]</span><span> </span><span>intro</span><span class="delimiter">!</span><span class="delimiter">:</span><span> </span><span>var</span><span> </span><span>app</span><span> </span><span>lam</span><span class="delimiter">)</span><span class="delimiter">+</span><span>
+</span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">done</span></span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">theorem</span></span><span> </span><span>user_TT_finite_fresh_induct</span><span class="delimiter">[</span><span>case_names</span><span> </span><span>Var</span><span> </span><span>Lam</span><span> </span><span>App</span><span class="delimiter">,</span><span> </span><span>consumes</span><span> </span><span>1</span><span class="delimiter">,</span><span>
+</span><span>   </span><span>induct</span><span> </span><span>type</span><span class="delimiter">:</span><span> </span><span>TT</span><span class="delimiter">]</span><span class="delimiter">:</span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>t</span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a::var_TT TT&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>A</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a set&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span>fin</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;finite A&quot;</span></span></span><span>
+</span><span>      </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>var</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896;a. &#966; (Var a)&quot;</span></span></span><span>
+</span><span>      </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>app</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896;t1 t2. &#966; t1 &#10233; &#966; t2 &#10233; &#966; (App t1 t2)&quot;</span></span></span><span>
+</span><span>      </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>lam</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896;a t. a &#8713; A &#10233; &#966; t &#10233; &#966; (Lam a t)&quot;</span></span></span><span>
+</span><span>    </span><span class="keyword2"><span class="keyword">shows</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#966; T&quot;</span></span></span><span>
+</span><span class="keyword1"><span class="command">proof</span></span><span> </span><span>-</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">from</span></span><span> </span><span>fin</span><span> </span><span class="keyword1"><span class="command">have</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|A| &lt;o bound(any::&#39;a::var_TT)&quot;</span></span></span><span>
+</span><span>    </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>intro</span><span> </span><span>ordLess_imp_ordLeq</span><span> </span><span>Cfinite_ordLess_Cinfinite</span><span class="delimiter">)</span><span>
+</span><span>      </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>bound_cinfinite</span><span> </span><span>bound_Card_order</span><span> </span><span>cfinite_def</span><span class="delimiter">)</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">then</span></span><span> </span><span class="keyword3"><span class="command">show</span></span><span> </span><span class="var">?thesis</span><span>
+</span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">apply</span></span></span></span><span> </span><span class="delimiter">(</span><span>induct</span><span> </span><span>T</span><span class="delimiter">)</span><span>
+</span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">subgoal</span></span></span></span><span> </span><span class="keyword2"><span class="keyword">for</span></span><span> </span><span>f</span><span>
+</span><span>    </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>cases</span><span> </span><span>f</span><span class="delimiter">)</span><span> </span><span class="delimiter">(</span><span>force</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>TT_ctr_defs</span><span class="delimiter">[</span><span>symmetric</span><span class="delimiter">]</span><span> </span><span>intro</span><span class="delimiter">!</span><span class="delimiter">:</span><span> </span><span>var</span><span> </span><span>app</span><span> </span><span>lam</span><span class="delimiter">)</span><span class="delimiter">+</span><span>
+</span><span>  </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">done</span></span></span></span><span>
+</span><span class="keyword1"><span class="command">qed</span></span><span>
+</span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Cardinality: *)</span></span></span></span></span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>finite_less_bound</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;finite A &#10233; |A| &lt;o bound(any::&#39;a::var_TT)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>simp</span><span> </span><span>add</span><span class="delimiter">:</span><span> </span><span>var_TT_infinite</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* The above can be used to replace everywhere
+the smallness assumption with the finiteness assumption,
+for example: *)</span></span></span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">thm</span></span><span> </span><span>user_TT_fresh_induct</span><span class="delimiter">[</span><span>OF</span><span> </span><span>finite_less_bound</span><span class="delimiter">]</span><span>
+</span><span>    </span><span>TT_tvsubst_simps</span><span class="delimiter">(</span><span>3</span><span class="delimiter">)</span><span class="delimiter">[</span><span>OF</span><span> </span><span>finite_less_bound</span><span class="delimiter">,</span><span>simp</span><span class="delimiter">]</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">hide_type</span></span><span> </span><span class="delimiter">(</span><span class="keyword2"><span class="keyword">open</span></span><span class="delimiter">)</span><span> </span><span>F</span><span>
+</span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* Not covered here: The recursor will also be instantiated to the
+concrete syntax, and customized for the concrete constructors.
+*)</span></span></span></span></span><span>
+</span><span>
+</span><span>
+</span><span class="keyword2"><span class="keyword">end</span></span></pre>
+
+</div>
+</body>
+</html>

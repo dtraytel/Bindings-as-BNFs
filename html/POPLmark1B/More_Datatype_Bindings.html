@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Theory More_Datatype_Bindings (Isabelle2018: August 2018)</title>
+<link media="all" rel="stylesheet" type="text/css" href="isabelle.css"/>
+</head>
+
+<body>
+<div class="head"><h1>Theory More_Datatype_Bindings</h1>
+
+<span class="command">theory</span> <span class="name">More_Datatype_Bindings</span><br/>
+<span class="keyword">imports</span> <a href="Datatype_Bindings.html"><span class="name">Datatype_Bindings</span></a><br/>
+
+</div>
+<div class="source">
+<pre class="source"><span class="keyword1"><span class="command">theory</span></span><span> </span><span>More_Datatype_Bindings</span><span> 
+</span><span>  </span><span class="keyword2"><span class="keyword">imports</span></span><span> </span><span>Datatype_Bindings</span><span>
+</span><span class="keyword2"><span class="keyword">begin</span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemmas</span></span><span> </span><span>F_set_map_id</span><span> </span><span class="delimiter">=</span><span> </span><span>F_set_map</span><span class="delimiter">[</span><span>OF</span><span> </span><span>supp_id_bound</span><span> </span><span>bij_id</span><span> </span><span>supp_id_bound</span><span class="delimiter">]</span><span>
+</span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* *)</span></span></span></span></span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>wf_subshape</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;wf {(t,t&#39;) . subshape t t&#39;}&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>wf_def</span><span> </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">apply</span></span></span></span><span> </span><span>safe</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>subshape_induct</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>set3_F_subshape</span><span class="delimiter">:</span><span> 
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;t &#8712; set3_F x &#10233; subshape t (ctor x)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>metis</span><span> </span><span>T_map_id</span><span> </span><span>Un_iff</span><span> </span><span>alpha_refl</span><span> </span><span>bij_id</span><span> </span><span>subshape.intros</span><span> </span><span>supp_id_bound</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>set4_F_subshape</span><span class="delimiter">:</span><span> 
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;t &#8712; set4_F x &#10233; subshape t (ctor x)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>metis</span><span> </span><span>T_map_id</span><span> </span><span>Un_iff</span><span> </span><span>alpha_refl</span><span> </span><span>bij_id</span><span> </span><span>subshape.intros</span><span> </span><span>supp_id_bound</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(*    *)</span></span></span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>F_rel_refl_strong</span><span class="delimiter">:</span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>u</span><span> </span><span>v</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a::var_TT &#8658; &#39;a&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span>u</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|supp u| &lt;o bound(any::&#39;a)&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>v</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;bij v&quot;</span></span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|supp v| &lt;o bound(any::&#39;a)&quot;</span></span></span><span> 
+</span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896;z1. z1 &#8712; set1_F x &#10233; u z1 = z1&quot;</span></span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896;z2. z2 &#8712; set2_F x &#10233; v z2 = z2&quot;</span></span></span><span>
+</span><span>    </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896;z3. z3 &#8712; set3_F x &#10233; P z3 z3&quot;</span></span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#8896;z4. z4 &#8712; set4_F x &#10233; Q z4 z4&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">shows</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;rel_F u v P Q x x&quot;</span></span></span><span>
+</span><span class="keyword1"><span class="command">proof</span></span><span>-</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">have</span></span><span> </span><span>0</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;rel_F id id P Q x x&quot;</span></span></span><span> </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">apply</span></span></span></span><span class="delimiter">(</span><span>rule</span><span> </span><span>F.rel_refl_strong</span><span class="delimiter">)</span><span> </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>assms</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span>  </span><span class="keyword3"><span class="command">show</span></span><span> </span><span class="var">?thesis</span><span> </span><span class="keyword1"><span class="command"><span class="improper"><span class="command">apply</span></span></span></span><span class="delimiter">(</span><span>rule</span><span> </span><span>F_rel_mono_strong0</span><span class="delimiter">[</span><span>OF</span><span> </span><span>supp_id_bound</span><span> </span><span>u</span><span> </span><span>bij_id</span><span> </span><span>supp_id_bound</span><span> </span><span>v</span><span> </span><span>0</span><span class="delimiter">]</span><span class="delimiter">)</span><span>
+</span><span>    </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>assms</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span class="keyword1"><span class="command">qed</span></span><span>
+</span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(*  *)</span></span></span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">abbreviation</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;FFVarsB x &#8801; (UNION (set4_F x) FFVars) - set2_F x&quot;</span></span></span><span>
+</span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(*  *)</span></span></span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">declare</span></span><span> </span><span>abs_rep_TT2</span><span class="delimiter">[</span><span>simp</span><span class="delimiter">]</span><span>
+</span><span>
+</span><span class="comment"><span class="delete"><span class="delete"><span class="delete"><span class="delete">(* the absence of classing between the binding variables and the top-free variables: *)</span></span></span></span></span><span>
+</span><span class="keyword1"><span class="command">definition</span></span><span> </span><span>noclash</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;(&#39;a::var_TT,&#39;a,&#39;a T, &#39;a T) F &#8658; bool&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">where</span></span><span> 
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;noclash x &#8801; set2_F x &#8745; (set1_F x &#8746; UNION (set3_F x) FVars) = {}&quot;</span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>noclash_FVars_ctor</span><span class="delimiter">:</span><span> 
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;noclash x &#10231; FVars (ctor x) = set1_F x &#8746; UNION (set3_F x &#8746; set4_F x) FVars - set2_F x&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>noclash_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>FVars_ctor</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>noclash_FVars_ctor_int</span><span class="delimiter">:</span><span> 
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;noclash x &#10231; FVars (ctor x) &#8745; set2_F x = {}&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>noclash_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>FVars_ctor</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>noclash_map_F</span><span class="delimiter">[</span><span>simp</span><span class="delimiter">]</span><span class="delimiter">:</span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>u</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a::var_TT &#8658; &#39;a&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span>u</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;bij u&quot;</span></span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|supp u| &lt;o bound(any::&#39;a)&quot;</span></span></span><span>  
+</span><span>  </span><span class="keyword2"><span class="keyword">shows</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;noclash (map_F u u (map_T u) (map_T u) x) &#10231; noclash x&quot;</span></span></span><span> 
+</span><span>  </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>noclash_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span> </span><span>add</span><span class="delimiter">:</span><span> </span><span>u</span><span> </span><span>F_set_map</span><span> </span><span>FVars_map_T</span><span class="delimiter">)</span><span>  
+</span><span>
+</span><span class="keyword1"><span class="command">definition</span></span><span> </span><span>nnoclash</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;(&#39;a::var_TT,&#39;a,&#39;a TT, &#39;a TT) F &#8658; bool&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">where</span></span><span> 
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;nnoclash x &#8801; set2_F x &#8745; (set1_F x &#8746; UNION (set3_F x) FFVars) = {}&quot;</span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>nnoclash_FFVars_cctor</span><span class="delimiter">:</span><span> 
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;nnoclash x &#10231; FFVars (cctor x) = set1_F x &#8746; UNION (set3_F x &#8746; set4_F x) FFVars - set2_F x&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>nnoclash_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>FFVars_simps</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>nnoclash_FFVars_cctor_int</span><span class="delimiter">:</span><span>   
+</span><span>  </span><span class="string"><span class="delete"><span class="delete">&quot;nnoclash x &#10231; FFVars (cctor x) &#8745; set2_F x = {}&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>nnoclash_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>FFVars_simps</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>map_TT_comp</span><span class="delimiter">:</span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>u</span><span> </span><span>v</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a::var_TT &#8658; &#39;a&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span>u</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;bij u&quot;</span></span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|supp u| &lt;o bound(any::&#39;a)&quot;</span></span></span><span> </span><span class="keyword2"><span class="keyword">and</span></span><span> </span><span>v</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;bij v&quot;</span></span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|supp v| &lt;o bound(any::&#39;a)&quot;</span></span></span><span> 
+</span><span>  </span><span class="keyword2"><span class="keyword">shows</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;map_TT (u o v) x = map_TT u (map_TT v x)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>transfer</span><span> </span><span>fixing</span><span class="delimiter">:</span><span> </span><span>u</span><span> </span><span>v</span><span class="delimiter">)</span><span>
+</span><span>    </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>asSS_def</span><span> </span><span>T_map_comp</span><span> </span><span>supp_comp_bound</span><span> </span><span>alpha_refl</span><span> </span><span>assms</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>FFVars_map_TT</span><span class="delimiter">:</span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">fixes</span></span><span> </span><span>u</span><span> </span><span class="delimiter">::</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;&#39;a::var_TT &#8658; &#39;a&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">assumes</span></span><span> </span><span>u</span><span class="delimiter">:</span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;bij u&quot;</span></span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;|supp u| &lt;o bound(any::&#39;a)&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword2"><span class="keyword">shows</span></span><span> </span><span class="string"><span class="delete"><span class="delete">&quot;FFVars (map_TT u x) = u ` FFVars x&quot;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>transfer</span><span> </span><span>fixing</span><span class="delimiter">:</span><span> </span><span>u</span><span class="delimiter">)</span><span>
+</span><span>    </span><span class="delimiter">(</span><span>auto</span><span> </span><span>simp</span><span class="delimiter">:</span><span> </span><span>asSS_def</span><span> </span><span>FVars_map_T</span><span> </span><span>assms</span><span class="delimiter">)</span><span>
+</span><span>
+</span><span class="keyword2"><span class="keyword">end</span></span></pre>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+chapter Bindings
+
+session Lambda = "HOL-Cardinals" +
+  options [document = false]
+
+  sessions
+    "HOL-Cardinals"
+
+  theories [document = false]
+    "../Card_Prelim"
+    "../Prelim"
+    "../Template"
+
+  theories
+    Common_Data_Codata_Bindings
+    Datatype_Bindings
+    More_Datatype_Bindings
+    Datatype_Recursion_Template
+    Datatype_VVsubst
+    Datatype_TVsubst
+    Custom_Lambda
