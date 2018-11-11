@@ -9,7 +9,7 @@ many appendices (```binding_extended.pdf```). We have also singled out the part
 of the appendix that is directly relevant for (and referenced in) the
 formalization artifact (```appendix.pdf```).
 
-The formal development can be browsed as a [generated HTML page](https://htmlpreview.github.io/?https://github.com/dtraytel/Bindings-as-BNFs/blob/master/html/index.html) (see also the html directory). A better way to study the theory files, however, is to open
+The formal development can be browsed as a [generated HTML page](https://htmlpreview.github.io/?https://github.com/dtraytel/Bindings-as-BNFs/blob/templateless/html/index.html) (see also the html directory). A better way to study the theory files, however, is to open
 them in Isabelle/jEdit.
 
 The raw Isabelle sources are included in a separate directory called thys.
