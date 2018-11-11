@@ -1,5 +1,5 @@
-This repository contains Isabelle formalization of binding-aware (co)datatypes
-and (co)recursors related to the paper
+This repository contains the Isabelle formalization of binding-aware
+(co)datatypes and (co)recursors related to the paper
 
 > **Bindings as Bounded Natural Functors**<br/>
 > Jasmin Christian Blanchette, Lorenzo Gheri, Andrei Popescu, Dmitriy Traytel
